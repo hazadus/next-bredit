@@ -6,6 +6,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 - [Next.js](https://nextjs.org/)
   - [Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)
+- React
+  - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
 - [Chakra UI](https://chakra-ui.com/)
   - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/customize-theme#customizing-theme-tokens)
   - [Using fonts](https://chakra-ui.com/community/recipes/using-fonts)
