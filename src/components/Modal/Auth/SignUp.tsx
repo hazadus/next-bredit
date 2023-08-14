@@ -52,7 +52,7 @@ const SignUp: React.FC = () => {
           name="password"
           placeholder="password"
           type="password"
-          mb={4}
+          mb={2}
           onChange={onChange}
           fontSize="10pt"
           _placeholder={{ color: "gray.500" }}
