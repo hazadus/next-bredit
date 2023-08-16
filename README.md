@@ -15,8 +15,24 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
 - [Recoil](https://recoiljs.org/) – state management.
+- [Firebase](https://console.firebase.google.com/)
 
 # Getting Started
+
+## Configration
+
+Create Firebase project for the app. Then, create `.env.local` and put the following variables with corresponding values there:
+
+```
+NEXT_PUBLIC_FIREBASE_API_KEY
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+NEXT_PUBLIC_FIREBASE_PROJECT_ID
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+NEXT_PUBLIC_FIREBASE_APP_ID
+```
+
+## Running the App
 
 First, run the development server:
 
