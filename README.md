@@ -16,6 +16,8 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
 - [Recoil](https://recoiljs.org/) – state management.
 - [Firebase](https://console.firebase.google.com/)
+  - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
+    - [React Firebase Hooks - Auth](https://github.com/csfrequency/react-firebase-hooks/tree/09bf06b28c82b4c3c1beabb1b32a8007232ed045/auth#usecreateuserwithemailandpassword)
 
 # Getting Started
 

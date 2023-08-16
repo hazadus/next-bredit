@@ -1,6 +1,8 @@
 import { authModalState } from "@/atoms/authModalAtom";
+import { auth } from "@/firebase/clientApp";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
 const SignUp: React.FC = () => {
@@ -11,10 +13,23 @@ const SignUp: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+  const [formError, setFormError] = useState("");
 
-  const onSubmit = (event: FormEvent) => {
+  const [createUserWithEmailAndPassword, user, loading, signupError] =
+    useCreateUserWithEmailAndPassword(auth);
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setFormError("");
+
+    if (signupForm.password !== signupForm.confirmPassword) {
+      setFormError("Entered passwords do not match.");
+      return;
+    }
+
+    createUserWithEmailAndPassword(signupForm.email, signupForm.password);
   };
+
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSignupForm((prev) => ({
       ...prev,
@@ -32,6 +47,7 @@ const SignUp: React.FC = () => {
           type="email"
           mb={2}
           onChange={onChange}
+          isDisabled={loading}
           fontSize="10pt"
           _placeholder={{ color: "gray.500" }}
           _hover={{
@@ -54,6 +70,7 @@ const SignUp: React.FC = () => {
           type="password"
           mb={2}
           onChange={onChange}
+          isDisabled={loading}
           fontSize="10pt"
           _placeholder={{ color: "gray.500" }}
           _hover={{
@@ -74,8 +91,9 @@ const SignUp: React.FC = () => {
           name="confirmPassword"
           placeholder="confirm password"
           type="password"
-          mb={4}
+          mb={2}
           onChange={onChange}
+          isDisabled={loading}
           fontSize="10pt"
           _placeholder={{ color: "gray.500" }}
           _hover={{
@@ -91,7 +109,14 @@ const SignUp: React.FC = () => {
           }}
           bg="gray.50"
         />
-        <Button type="submit" width="100%" height="36px" mb={2}>
+        {formError ||
+          (signupError && (
+            <Text fontSize="10pt" color="red" align="center" mb={2}>
+              {formError}
+              {signupError.message}
+            </Text>
+          ))}
+        <Button type="submit" width="100%" height="36px" mb={2} isLoading={loading}>
           Sign Up
         </Button>
         <Flex fontSize="9pt" justifyContent="center">
