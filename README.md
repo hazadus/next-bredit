@@ -20,6 +20,10 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
     - [React Firebase Hooks - Auth](https://github.com/csfrequency/react-firebase-hooks/tree/09bf06b28c82b4c3c1beabb1b32a8007232ed045/auth#usecreateuserwithemailandpassword)
 
+## Tools
+
+- [vscode-react-javascript-snippets](https://github.com/ults-io/vscode-react-javascript-snippets) – Extension for React/Javascript snippets with search supporting ES7+ and babel features.
+
 # Getting Started
 
 ## Configration
