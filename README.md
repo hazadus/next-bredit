@@ -1,6 +1,14 @@
 # next-bredit
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Reddit clone built using [Next.js 13](https://nextjs.org/), Firebase, Chakra UI and some other cool tools.
+
+Deployed on Vercel, check out the current version: https://next-bredit.vercel.app
+
+Add credits to freeCodeCamp.org and Shadee Merhi here.
+
+## Features Implemented
+
+- User authentication using Firebase (email and password, or using Google account)
 
 ## Tech Stack Used
 
@@ -13,6 +21,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - [Using fonts](https://chakra-ui.com/community/recipes/using-fonts)
   - [Add elements inside Input](https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input)
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
+  - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
 - [react-icons](https://www.npmjs.com/package/react-icons)
 - [Recoil](https://recoiljs.org/) – state management.
@@ -26,7 +35,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 # Getting Started
 
-## Configration
+## Configuration
 
 Create Firebase project for the app. Then, create `.env.local` and put the following variables with corresponding values there:
 
@@ -52,10 +61,6 @@ pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
