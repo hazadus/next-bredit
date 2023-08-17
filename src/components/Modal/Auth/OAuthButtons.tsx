@@ -1,16 +1,16 @@
 import { authModalState } from "@/atoms/authModalAtom";
-import { Button, Flex, Image } from "@chakra-ui/react";
+import { auth } from "@/firebase/clientApp";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { useRecoilValue } from "recoil";
-import LogIn from "./LogIn";
-import SignUp from "./SignUp";
 
 const OAuthButtons: React.FC = () => {
-  const modalState = useRecoilValue(authModalState);
+  const [signinWithGoogle, user, loadingGoogle, googleSignInError] = useSignInWithGoogle(auth);
 
   return (
     <Flex direction="column" width="100%" mb={4}>
-      <Button variant="oauth" mb={2}>
+      <Button variant="oauth" mb={2} onClick={() => signinWithGoogle()} isLoading={loadingGoogle}>
         <Image src="/images/googleLogo.png" height="20px" mr={2} />
         Continue with Google
       </Button>
@@ -18,6 +18,11 @@ const OAuthButtons: React.FC = () => {
         <Image src="/images/githubLogo.png" height="20px" mr={2} />
         Continue with GitHub
       </Button>
+      {googleSignInError && (
+        <Text fontSize="10pt" color="red" align="center" mb={2}>
+          {googleSignInError.message}
+        </Text>
+      )}
     </Flex>
   );
 };
