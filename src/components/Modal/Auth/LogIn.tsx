@@ -84,6 +84,22 @@ const LogIn: React.FC = () => {
       <Button type="submit" width="100%" height="36px" mt={2} mb={2} isLoading={loading}>
         Log In
       </Button>
+      <Flex fontSize="9pt" justifyContent="center" mb={2}>
+        <Text mr={1}>Forgot your password?</Text>
+        <Text
+          color="blue.500"
+          fontWeight={700}
+          cursor="pointer"
+          onClick={() =>
+            setAuthModalState((prev) => ({
+              ...prev,
+              view: "passwordReset",
+            }))
+          }
+        >
+          Reset
+        </Text>
+      </Flex>
       <Flex fontSize="9pt" justifyContent="center">
         <Text mr={1}>New to Bredit?</Text>
         <Text

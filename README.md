@@ -14,6 +14,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
   - [Add elements inside Input](https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input)
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
+- [react-icons](https://www.npmjs.com/package/react-icons)
 - [Recoil](https://recoiljs.org/) – state management.
 - [Firebase](https://console.firebase.google.com/)
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
