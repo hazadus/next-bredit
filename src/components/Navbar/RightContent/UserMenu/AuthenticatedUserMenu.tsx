@@ -8,11 +8,11 @@ import { FaRedditSquare } from "react-icons/fa";
 import { MdOutlineLogout } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
 
-type UserMenuProps = {
+type AuthenticatedUserMenuProps = {
   user?: User | null;
 };
 
-const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
+const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
   return (
     <>
       {user && (
@@ -72,4 +72,4 @@ const UserMenu: React.FC<UserMenuProps> = ({ user }) => {
   );
 };
 
-export default UserMenu;
+export default AuthenticatedUserMenu;

@@ -4,7 +4,7 @@ import { User } from "firebase/auth";
 import React from "react";
 import AuthButtons from "./AuthButtons";
 import Icons from "./Icons";
-import UserMenu from "./UserMenu";
+import UserMenu from "./UserMenu/UserMenu";
 
 type RightContentProps = {
   // This is equal to `user: User | null | undefined`, but more concise.
@@ -17,14 +17,8 @@ const RightContent: React.FC<RightContentProps> = ({ user }) => {
       {/* AuthModal is triggered globally by watching the state */}
       <AuthModal />
       <Flex justify="center" align="center">
-        {user ? (
-          <>
-            <Icons />
-            <UserMenu user={user} />
-          </>
-        ) : (
-          <AuthButtons />
-        )}
+        {user ? <Icons /> : <AuthButtons />}
+        <UserMenu user={user} />
       </Flex>
     </>
   );
