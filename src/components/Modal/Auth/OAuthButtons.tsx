@@ -1,9 +1,7 @@
-import { authModalState } from "@/atoms/authModalAtom";
 import { auth } from "@/firebase/clientApp";
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import React from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { useRecoilValue } from "recoil";
 
 const OAuthButtons: React.FC = () => {
   const [signinWithGoogle, user, loadingGoogle, googleSignInError] = useSignInWithGoogle(auth);

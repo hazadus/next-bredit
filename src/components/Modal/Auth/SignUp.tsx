@@ -116,7 +116,7 @@ const SignUp: React.FC = () => {
               {signupError.message}
             </Text>
           ))}
-        <Button type="submit" width="100%" height="36px" mb={2} isLoading={loading}>
+        <Button type="submit" width="100%" height="36px" mt={2} mb={2} isLoading={loading}>
           Sign Up
         </Button>
         <Flex fontSize="9pt" justifyContent="center">

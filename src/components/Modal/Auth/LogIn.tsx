@@ -1,6 +1,8 @@
 import { authModalState } from "@/atoms/authModalAtom";
+import { auth } from "@/firebase/clientApp";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { ChangeEvent, FormEvent, useState } from "react";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
 
 const LogIn: React.FC = () => {
@@ -11,9 +13,14 @@ const LogIn: React.FC = () => {
     password: "",
   });
 
-  const onSubmit = (event: FormEvent) => {
+  const [signInWithEmailAndPassword, user, loading, signinError] = useSignInWithEmailAndPassword(auth);
+
+  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    signInWithEmailAndPassword(loginForm.email, loginForm.password);
   };
+
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setLoginForm((prev) => ({
       ...prev,
@@ -30,6 +37,7 @@ const LogIn: React.FC = () => {
         type="email"
         mb={2}
         onChange={onChange}
+        isDisabled={loading}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{
@@ -50,8 +58,9 @@ const LogIn: React.FC = () => {
         name="password"
         placeholder="password"
         type="password"
-        mb={4}
+        mb={2}
         onChange={onChange}
+        isDisabled={loading}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{
@@ -67,7 +76,12 @@ const LogIn: React.FC = () => {
         }}
         bg="gray.50"
       />
-      <Button type="submit" width="100%" height="36px" mb={2}>
+      {signinError && (
+        <Text fontSize="10pt" color="red" align="center" mb={2}>
+          {signinError.message}
+        </Text>
+      )}
+      <Button type="submit" width="100%" height="36px" mt={2} mb={2} isLoading={loading}>
         Log In
       </Button>
       <Flex fontSize="9pt" justifyContent="center">
