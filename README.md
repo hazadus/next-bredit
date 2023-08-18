@@ -17,10 +17,12 @@ Add credits to freeCodeCamp.org and Shadee Merhi here.
 - React
   - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
 - [Chakra UI](https://chakra-ui.com/)
-  - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/customize-theme#customizing-theme-tokens)
+  - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/
+    customize-theme#customizing-theme-tokens)
   - [Using fonts](https://chakra-ui.com/community/recipes/using-fonts)
   - [Add elements inside Input](https://chakra-ui.com/docs/components/input/usage#add-elements-inside-input)
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
+    - [How to make custom sized modal in chakra UI](https://stackoverflow.com/questions/70040397/how-to-make-custom-sized-modal-in-chakra-ui) (or just use `<Modal size="xl">`)
   - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
 - [react-icons](https://www.npmjs.com/package/react-icons)
