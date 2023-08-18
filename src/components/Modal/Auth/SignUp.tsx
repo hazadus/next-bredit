@@ -1,6 +1,8 @@
 import { authModalState } from "@/atoms/authModalAtom";
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { User } from "firebase/auth";
+import { addDoc, collection } from "firebase/firestore";
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useSetRecoilState } from "recoil";
@@ -18,7 +20,20 @@ const SignUp: React.FC = () => {
   const [createUserWithEmailAndPassword, user, loading, signupError] =
     useCreateUserWithEmailAndPassword(auth);
 
-  const onSubmit = (event: FormEvent<HTMLFormElement>) => {
+  /**
+   * Add new user to `users` collection in the Firestore database.
+   * @param user Firebase User instance
+   */
+  const createUserDocument = async (user: User) => {
+    addDoc(collection(firestore, "users"), JSON.parse(JSON.stringify(user)));
+  };
+
+  /**
+   * Validate passwords and submit data to the Firebase.
+   * @param event
+   * @returns
+   */
+  const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setFormError("");
 
@@ -27,9 +42,15 @@ const SignUp: React.FC = () => {
       return;
     }
 
-    createUserWithEmailAndPassword(signupForm.email, signupForm.password);
+    // Actually create the new user and add it to the Firestore database collection.
+    const newUserCredentials = await createUserWithEmailAndPassword(signupForm.email, signupForm.password);
+    if (newUserCredentials) createUserDocument(newUserCredentials.user);
   };
 
+  /**
+   * Tricky function to handle changes in all input fields.
+   * @param event
+   */
   const onChange = (event: ChangeEvent<HTMLInputElement>) => {
     setSignupForm((prev) => ({
       ...prev,
