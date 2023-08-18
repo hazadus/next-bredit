@@ -1,3 +1,4 @@
+import { auth, firestore } from "@/firebase/clientApp";
 import {
   Box,
   Button,
@@ -16,7 +17,9 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
 
@@ -29,16 +32,63 @@ const CreateCommunityModal: React.FC<Props> = ({ isOpen, handleClose }) => {
   const [communityName, setCommunityName] = useState("");
   const [charsRemaining, setCharsRemaining] = useState(21);
   const [communityType, setCommunityType] = useState("public");
+  const [validationError, setValidationError] = useState("");
+  const [user] = useAuthState(auth);
+  const [isLoading, setIsLoading] = useState(false);
+  const [firestoreError, setFirestoreError] = useState("");
 
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.value.length > 21) return;
 
     setCommunityName(event.target.value);
     setCharsRemaining(21 - event.target.value.length);
+    setValidationError("");
   };
 
   const onTypeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCommunityType(event.target.name);
+  };
+
+  const handleCreateCommunity = async () => {
+    setValidationError("");
+    setFirestoreError("");
+
+    // Validate the community name
+    const format = /[ `!@#$%^&*()+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (format.test(communityName) || communityName.length < 3) {
+      setValidationError(
+        "Community names must be between 3–21 characters, and can only contain letters, numbers, or underscores.",
+      );
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Check if community with this name already exists.
+      const communityDocRef = doc(firestore, "communities", communityName);
+      const communityDoc = await getDoc(communityDocRef);
+
+      if (communityDoc.exists()) {
+        setValidationError(`Sorry, b/${communityName} is taken. Try another.`);
+        return;
+      }
+
+      // Create community document in the Firestore
+      await setDoc(communityDocRef, {
+        creatorId: user?.uid,
+        createdAt: serverTimestamp(),
+        numberOfMembers: 1,
+        privacyType: communityType,
+      });
+    } catch (error: any) {
+      console.log("Error creating community:", error);
+      setFirestoreError(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+
+    setCommunityName("");
   };
 
   return (
@@ -74,6 +124,12 @@ const CreateCommunityModal: React.FC<Props> = ({ isOpen, handleClose }) => {
               <Text fontSize={11} color={charsRemaining === 0 ? "red" : "gray.500"}>
                 {charsRemaining} Characters remaining
               </Text>
+
+              {validationError && (
+                <Text fontSize={11} color="red" pt={1}>
+                  {validationError}
+                </Text>
+              )}
 
               <Box mt={4} mb={4}>
                 <Text fontSize={15} fontWeight={600} mb={2}>
@@ -119,14 +175,22 @@ const CreateCommunityModal: React.FC<Props> = ({ isOpen, handleClose }) => {
                   </Checkbox>
                 </Stack>
               </Box>
+
+              {firestoreError && (
+                <Text fontSize="10pt" color="red" pt={1}>
+                  {firestoreError}
+                </Text>
+              )}
             </ModalBody>
           </Box>
 
-          <ModalFooter>
-            <Button variant="outline" height="30px" mr={3} onClick={handleClose}>
+          <ModalFooter bg="gray.100" borderRadius="0px 0px 10px 10px">
+            <Button variant="outline" height="30px" mr={3} onClick={handleClose} isDisabled={isLoading}>
               Cancel
             </Button>
-            <Button height="30px">Create Community</Button>
+            <Button onClick={handleCreateCommunity} height="30px" isLoading={isLoading}>
+              Create Community
+            </Button>
           </ModalFooter>
         </ModalContent>
       </Modal>
