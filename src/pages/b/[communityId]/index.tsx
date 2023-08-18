@@ -1,4 +1,5 @@
 import CommunityNotFound from "@/components/Community/CommunityNotFound";
+import Header from "@/components/Community/Header";
 import { firestore } from "@/firebase/clientApp";
 import { ICommunity } from "@/types/types";
 import { doc, getDoc } from "firebase/firestore";
@@ -21,9 +22,9 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
   }
 
   return (
-    <div>
-      CommunityPage for {communityData.id}, {communityData.privacyType}, {communityData.createdAt?.toString()}
-    </div>
+    <>
+      <Header communityData={communityData} />
+    </>
   );
 };
 
