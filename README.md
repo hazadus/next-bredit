@@ -9,11 +9,14 @@ Add credits to freeCodeCamp.org and Shadee Merhi here.
 ## Features Implemented
 
 - User authentication using Firebase (email and password, or using Google account)
+- Community and user data stored in Firestore database
+- Community page SSR
 
 ## Tech Stack Used
 
 - [Next.js](https://nextjs.org/)
   - [Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)
+  - [getServerSideProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props)
 - React
   - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
 - [Chakra UI](https://chakra-ui.com/)
@@ -30,6 +33,7 @@ Add credits to freeCodeCamp.org and Shadee Merhi here.
 - [Firebase](https://console.firebase.google.com/)
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
     - [React Firebase Hooks - Auth](https://github.com/csfrequency/react-firebase-hooks/tree/09bf06b28c82b4c3c1beabb1b32a8007232ed045/auth#usecreateuserwithemailandpassword)
+- [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify)
 
 ## Tools
 
