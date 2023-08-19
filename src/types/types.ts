@@ -8,3 +8,13 @@ export interface ICommunity {
   createdAt?: Timestamp;
   imageURL?: string;
 }
+
+export interface ICommunitySnippet {
+  communityId: string;
+  isModerator?: boolean;
+  imageURL?: string;
+}
+
+export interface ICommunityState {
+  snippets: ICommunitySnippet[];
+}
