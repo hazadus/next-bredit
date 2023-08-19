@@ -1,3 +1,4 @@
+import { communityState } from "@/atoms/communitiesAtom";
 import { auth } from "@/firebase/clientApp";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
@@ -5,14 +6,23 @@ import { User, signOut } from "firebase/auth";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaRedditSquare } from "react-icons/fa";
-import { MdOutlineLogout } from "react-icons/md";
 import { IoSparkles } from "react-icons/io5";
+import { MdOutlineLogout } from "react-icons/md";
+import { useResetRecoilState } from "recoil";
 
 type AuthenticatedUserMenuProps = {
   user?: User | null;
 };
 
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
+  const resetUserCommunitiesState = useResetRecoilState(communityState);
+
+  const onClickLogout = async () => {
+    await signOut(auth);
+    // Clear user's community snippets global state
+    resetUserCommunitiesState();
+  };
+
   return (
     <>
       {user && (
@@ -55,7 +65,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
             </MenuItem>
             <MenuDivider />
             <MenuItem
-              onClick={() => signOut(auth)}
+              onClick={onClickLogout}
               fontSize="10pt"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}

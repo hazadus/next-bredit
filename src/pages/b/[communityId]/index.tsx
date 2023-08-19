@@ -5,6 +5,7 @@ import { firestore } from "@/firebase/clientApp";
 import { ICommunity } from "@/types/types";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 import React from "react";
 import safeJsonStringify from "safe-json-stringify";
 
@@ -24,6 +25,9 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
 
   return (
     <>
+      <Head>
+        <title>{communityData.id}</title>
+      </Head>
       <Header communityData={communityData} />
       <PageContentLayout>
         {/* Left column */}

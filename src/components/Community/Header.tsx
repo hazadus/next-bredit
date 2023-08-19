@@ -1,6 +1,9 @@
+import { auth } from "@/firebase/clientApp";
+import useCommunityData from "@/hooks/useCommunityData";
 import { ICommunity } from "@/types/types";
 import { Box, Button, Flex, Icon, Image, Text } from "@chakra-ui/react";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { FaReddit } from "react-icons/fa";
 
 type HeaderProps = {
@@ -8,7 +11,11 @@ type HeaderProps = {
 };
 
 const Header: React.FC<HeaderProps> = ({ communityData }) => {
-  const isJoined = true;
+  const [user] = useAuthState(auth);
+  const { communityStateValue, isLoading, joinOrLeaveCommunity } = useCommunityData();
+  // `isJoined` state will be auto updated on user login/logout/change, thanks to `useEffect`
+  // hook inside `useCommunityData()`. `!!` below is to convert to boolean
+  const isJoined = !!communityStateValue.snippets.find((item) => item.communityId === communityData.id);
 
   return (
     <Flex direction="column" width="100%" height="146px">
@@ -39,9 +46,20 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 b/{communityData.id}
               </Text>
             </Flex>
-            <Button variant={isJoined ? "outline" : "solid"} height="36px" px={6} onClick={() => {}}>
-              {isJoined ? "Leave" : "Join"}
-            </Button>
+            {/* Hide "Join/Leave" button when user is not authenticated */}
+            {user && (
+              <Button
+                variant={isJoined ? "outline" : "solid"}
+                height="36px"
+                px={6}
+                onClick={() => {
+                  joinOrLeaveCommunity(communityData, isJoined);
+                }}
+                isLoading={isLoading}
+              >
+                {isJoined ? "Leave" : "Join"}
+              </Button>
+            )}
           </Flex>
         </Flex>
       </Flex>
