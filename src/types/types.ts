@@ -1,3 +1,4 @@
+import { Icon } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
 
 export interface ICommunity {
@@ -18,3 +19,8 @@ export interface ICommunitySnippet {
 export interface ICommunityState {
   snippets: ICommunitySnippet[];
 }
+
+export type TabItem = {
+  title: string;
+  icon: typeof Icon.arguments;
+};
