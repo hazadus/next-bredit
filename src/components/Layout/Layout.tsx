@@ -4,6 +4,9 @@ type LayoutProps = {
   children: React.ReactNode;
 };
 
+/**
+ * Main app layout.
+ */
 const Layout = (props: LayoutProps) => {
   return (
     <>
