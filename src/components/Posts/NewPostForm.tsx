@@ -1,10 +1,10 @@
-import { Flex, Icon } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BiPoll } from "react-icons/bi";
-import { BsLink45Deg, BsMic } from "react-icons/bs";
+import { BsLink45Deg } from "react-icons/bs";
 import { IoDocumentText, IoImageOutline } from "react-icons/io5";
-import { AiFillCloseCircle } from "react-icons/ai";
 import TabItem from "./TabItem";
+import TextInputs from "./TextInputs";
 
 const formTabs = [
   {
@@ -23,16 +23,29 @@ const formTabs = [
     title: "Poll",
     icon: BiPoll,
   },
-  {
-    title: "Talk",
-    icon: BsMic,
-  },
 ];
 
 type Props = {};
 
 const NewPostForm: React.FC<Props> = () => {
-  const [selectedTabindex, setSelectedTabindex] = useState(0);
+  const [selectedTabIndex, setSelectedTabindex] = useState(0);
+  const [textInputs, setTextInputs] = useState({
+    title: "",
+    body: "",
+  });
+  const [selectedImageFile, setSelectedImageFile] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const onTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setTextInputs((prev) => ({
+      ...prev,
+      [event.target.name]: event.target.value,
+    }));
+  };
+
+  const onSelectImage = () => {};
+
+  const handleCreatePost = async () => {};
 
   return (
     <Flex direction="column" bg="white" borderRadius={4} mt={2}>
@@ -40,10 +53,23 @@ const NewPostForm: React.FC<Props> = () => {
         {formTabs.map((item, index) => (
           <TabItem
             item={item}
-            isSelected={index === selectedTabindex}
+            isSelected={index === selectedTabIndex}
             setSelectedTab={() => setSelectedTabindex(index)}
           />
         ))}
+      </Flex>
+      <Flex p={4}>
+        {selectedTabIndex === 0 && (
+          <TextInputs
+            textInputs={textInputs}
+            onChange={onTextChange}
+            handleCreatePost={handleCreatePost}
+            isLoading={isLoading}
+          />
+        )}
+
+        {selectedTabIndex === 2 && <Text>Links are not yet implemented!</Text>}
+        {selectedTabIndex === 3 && <Text>Polls are not yet implemented!</Text>}
       </Flex>
     </Flex>
   );
