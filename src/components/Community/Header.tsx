@@ -46,20 +46,17 @@ const Header: React.FC<HeaderProps> = ({ communityData }) => {
                 b/{communityData.id}
               </Text>
             </Flex>
-            {/* Hide "Join/Leave" button when user is not authenticated */}
-            {user && (
-              <Button
-                variant={isJoined ? "outline" : "solid"}
-                height="36px"
-                px={6}
-                onClick={() => {
-                  joinOrLeaveCommunity(communityData, isJoined);
-                }}
-                isLoading={isLoading}
-              >
-                {isJoined ? "Leave" : "Join"}
-              </Button>
-            )}
+            <Button
+              variant={isJoined ? "outline" : "solid"}
+              height="36px"
+              px={6}
+              onClick={() => {
+                joinOrLeaveCommunity(communityData, isJoined);
+              }}
+              isLoading={isLoading}
+            >
+              {isJoined ? "Leave" : "Join"}
+            </Button>
           </Flex>
         </Flex>
       </Flex>

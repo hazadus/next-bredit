@@ -1,25 +1,42 @@
-# next-bredit
+# Bredit
 
 This is a Reddit clone built using [Next.js 13](https://nextjs.org/), Firebase, Chakra UI and some other cool tools.
 
-Deployed on Vercel, check out the current version: https://next-bredit.vercel.app
+Preview deployed on Vercel, check out the current version: https://next-bredit.vercel.app
 
-Add credits to freeCodeCamp.org and Shadee Merhi here.
+(Add credits to freeCodeCamp.org and Shadee Merhi here.)
 
 ## Features Implemented
 
 - User authentication using Firebase (email and password, or using Google account)
 - Community and user data stored in Firestore database
 - Community page SSR
+- Responsive UI
+- Global app state using Recoil
 
-## Tech Stack Used
+## Frameworks and Libraries Used
 
 - [Next.js](https://nextjs.org/)
+- [Chakra UI](https://chakra-ui.com/)
+- [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
+- [react-icons](https://www.npmjs.com/package/react-icons)
+- [Recoil](https://recoiljs.org/) – state management.
+- [Firebase](https://console.firebase.google.com/)
+  - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
+- [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify)
+
+## Tools
+
+- [vscode-react-javascript-snippets](https://github.com/ults-io/vscode-react-javascript-snippets) – Extension for React/Javascript snippets with search supporting ES7+ and babel features.
+
+## References, Notes, Docs
+
+- Next.js
   - [Layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts#layouts)
   - [getServerSideProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props)
 - React
   - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
-- [Chakra UI](https://chakra-ui.com/)
+- Chakra UI
   - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/
     customize-theme#customizing-theme-tokens)
   - [Using fonts](https://chakra-ui.com/community/recipes/using-fonts)
@@ -27,17 +44,6 @@ Add credits to freeCodeCamp.org and Shadee Merhi here.
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
     - [How to make custom sized modal in chakra UI](https://stackoverflow.com/questions/70040397/how-to-make-custom-sized-modal-in-chakra-ui) (or just use `<Modal size="xl">`)
   - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
-- [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
-- [react-icons](https://www.npmjs.com/package/react-icons)
-- [Recoil](https://recoiljs.org/) – state management.
-- [Firebase](https://console.firebase.google.com/)
-  - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
-    - [React Firebase Hooks - Auth](https://github.com/csfrequency/react-firebase-hooks/tree/09bf06b28c82b4c3c1beabb1b32a8007232ed045/auth#usecreateuserwithemailandpassword)
-- [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify)
-
-## Tools
-
-- [vscode-react-javascript-snippets](https://github.com/ults-io/vscode-react-javascript-snippets) – Extension for React/Javascript snippets with search supporting ES7+ and babel features.
 
 # Getting Started
 
