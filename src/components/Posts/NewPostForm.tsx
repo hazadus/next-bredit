@@ -113,6 +113,14 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
       setIsLoading(false);
     }
 
+    // Clear all inputs and selected image
+    setTextInputs({
+      title: "",
+      body: "",
+    });
+    setSelectedImageFileData("");
+
+    // Navigate to the community page
     router.push(`/b/${communityId}`);
   };
 
@@ -124,6 +132,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
             item={item}
             key={`tab-key-${index}`}
             isSelected={index === selectedTabIndex}
+            isDisabled={isLoading}
             setSelectedTab={() => setSelectedTabindex(index)}
           />
         ))}

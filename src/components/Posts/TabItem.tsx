@@ -5,24 +5,27 @@ import React from "react";
 type Props = {
   item: TabItem;
   isSelected: boolean;
+  isDisabled: boolean;
   setSelectedTab: () => void;
 };
 
-const TabItem: React.FC<Props> = ({ item, isSelected, setSelectedTab }) => {
+const TabItem: React.FC<Props> = ({ item, isSelected, isDisabled, setSelectedTab }) => {
   return (
     <Flex
       justify="center"
       align="center"
       flexGrow={1}
       p="14px 0px"
-      cursor="pointer"
+      cursor={isDisabled ? "default" : "pointer"}
       fontWeight={700}
       color={isSelected ? "blue.500" : "gray.500"}
       borderWidth={isSelected ? "0px 1px 2px 0px" : "0px 1px 1px 0px"}
       borderBottomColor={isSelected ? "blue.500" : "gray.200"}
       borderRightColor="gray.200"
       _hover={{ bg: "gray.50" }}
-      onClick={setSelectedTab}
+      onClick={() => {
+        if (!isDisabled) setSelectedTab();
+      }}
     >
       <Flex align="center" height="20px" mr={2}>
         <Icon height="100%" as={item.icon} fontSize={18} />
