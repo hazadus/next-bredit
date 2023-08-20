@@ -163,7 +163,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
       {error && (
         <Alert status="error">
           <AlertIcon />
-          <AlertTitle>An error has occured!</AlertTitle>
+          <AlertTitle>Error!</AlertTitle>
           <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}

@@ -1,5 +1,17 @@
 import { IPost } from "@/types/types";
-import { Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertDescription,
+  AlertIcon,
+  AlertTitle,
+  Flex,
+  Icon,
+  Image,
+  Skeleton,
+  Spinner,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import moment from "moment";
 import Link from "next/link";
 import React, { useState } from "react";
@@ -20,7 +32,7 @@ type PostItemProps = {
   userIsCreator: boolean;
   userVoteValue?: number; // +1 or -1
   onVote: () => void;
-  onDeletePost: () => void;
+  onDeletePost: (post: IPost) => Promise<boolean>;
   onSelectPost: () => void;
 };
 
@@ -35,7 +47,23 @@ const PostItem: React.FC<PostItemProps> = ({
   const singlePostView = false;
   const homePage = false;
   const [loadingImage, setLoadingImage] = useState(true);
-  const loadingDelete = false;
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleDelete = async () => {
+    setError("");
+    setLoadingDelete(true);
+
+    try {
+      const success = await onDeletePost(post);
+      if (!success) throw new Error("Failed to delete post.");
+    } catch (error: any) {
+      console.log("handleDelete error:", error);
+      setError(error.message);
+    } finally {
+      setLoadingDelete(false);
+    }
+  };
 
   return (
     <Flex
@@ -141,7 +169,7 @@ const PostItem: React.FC<PostItemProps> = ({
               borderRadius={4}
               _hover={{ bg: "gray.200" }}
               cursor="pointer"
-              onClick={() => {}}
+              onClick={handleDelete}
             >
               {loadingDelete ? (
                 <Spinner size="sm" />
@@ -154,6 +182,13 @@ const PostItem: React.FC<PostItemProps> = ({
             </Flex>
           )}
         </Flex>
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>Error!</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
       </Flex>
     </Flex>
   );
