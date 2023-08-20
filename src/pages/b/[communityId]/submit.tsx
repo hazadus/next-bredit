@@ -1,14 +1,21 @@
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import NewPostForm from "@/components/Posts/NewPostForm";
+import { auth } from "@/firebase/clientApp";
 import { Box, Text } from "@chakra-ui/react";
 import Head from "next/head";
+import { useRouter } from "next/router";
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 const SubmitPostPage: React.FC = () => {
+  const router = useRouter();
+  const [user] = useAuthState(auth);
+  const { communityId } = router.query;
+
   return (
     <>
       <Head>
-        <title>Submit to *communityId*</title>
+        <title>Submit to {communityId}</title>
       </Head>
       <PageContentLayout>
         <>
@@ -17,7 +24,7 @@ const SubmitPostPage: React.FC = () => {
               Create a post
             </Text>
           </Box>
-          <NewPostForm />
+          {user && communityId && <NewPostForm user={user} communityId={communityId as string} />}
         </>
         <>{/* About community */}</>
       </PageContentLayout>

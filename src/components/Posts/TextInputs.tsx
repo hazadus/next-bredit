@@ -28,6 +28,7 @@ const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCre
         fontSize="10pt"
         borderRadius={4}
         placeholder="Title"
+        isDisabled={isLoading}
       />
       <Textarea
         name="body"
@@ -43,6 +44,7 @@ const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCre
           borderColor: "black",
         }}
         height="100px"
+        isDisabled={isLoading}
       />
       <Flex justify="flex-end">
         <Button
