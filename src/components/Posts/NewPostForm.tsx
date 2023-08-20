@@ -106,22 +106,22 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
           imageURL: imageDownloadURL,
         });
       }
+
+      // Clear all inputs and selected image
+      setTextInputs({
+        title: "",
+        body: "",
+      });
+      setSelectedImageFileData("");
+
+      // Navigate to the community page
+      router.push(`/b/${communityId}`);
     } catch (error: any) {
       console.log("handleCreatePost error:", error);
       setError(error.message);
     } finally {
       setIsLoading(false);
     }
-
-    // Clear all inputs and selected image
-    setTextInputs({
-      title: "",
-      body: "",
-    });
-    setSelectedImageFileData("");
-
-    // Navigate to the community page
-    router.push(`/b/${communityId}`);
   };
 
   return (

@@ -23,7 +23,8 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
 - [Recoil](https://recoiljs.org/) – state management.
 - [Firebase](https://console.firebase.google.com/)
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
-- [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify)
+- [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify) - a wrapper for `JSON.stringify` that handles circular references and prevents defined getters from throwing errors.
+- [Moment.js](https://www.npmjs.com/package/moment) - date library for parsing, validating, manipulating, and formatting dates.
 
 ## Tools
 
