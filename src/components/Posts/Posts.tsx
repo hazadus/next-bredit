@@ -6,6 +6,7 @@ import React, { useEffect, useState } from "react";
 import PostItem from "./PostItem";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Stack } from "@chakra-ui/react";
+import PostSkeleton from "./PostSkeleton";
 
 type PostsProps = {
   communityData: ICommunity;
@@ -49,6 +50,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
   return (
     <>
       <Stack>
+        {isLoading && <PostSkeleton />}
         {postsStateValue.posts.map((post) => (
           <PostItem
             key={`post-item-id-${post.id}`}

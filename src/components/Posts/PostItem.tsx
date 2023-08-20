@@ -2,7 +2,7 @@ import { IPost } from "@/types/types";
 import { Flex, Icon, Image, Skeleton, Spinner, Stack, Text } from "@chakra-ui/react";
 import moment from "moment";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { BsChat, BsDot } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
@@ -34,7 +34,7 @@ const PostItem: React.FC<PostItemProps> = ({
 }) => {
   const singlePostView = false;
   const homePage = false;
-  const loadingImage = false;
+  const [loadingImage, setLoadingImage] = useState(true);
   const loadingDelete = false;
 
   return (
@@ -113,7 +113,9 @@ const PostItem: React.FC<PostItemProps> = ({
                 maxHeight="460px"
                 src={post.imageURL}
                 display={loadingImage ? "none" : "unset"}
-                onLoad={() => {}}
+                onLoad={() => {
+                  setLoadingImage(false);
+                }}
                 alt="Post Image"
               />
             </Flex>
