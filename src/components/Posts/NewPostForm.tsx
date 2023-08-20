@@ -1,10 +1,11 @@
 import { Flex, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { BiPoll } from "react-icons/bi";
 import { BsLink45Deg } from "react-icons/bs";
 import { IoDocumentText, IoImageOutline } from "react-icons/io5";
 import TabItem from "./TabItem";
 import TextInputs from "./TextInputs";
+import ImageUpload from "./ImageUpload";
 
 const formTabs = [
   {
@@ -35,6 +36,7 @@ const NewPostForm: React.FC<Props> = () => {
   });
   const [selectedImageFile, setSelectedImageFile] = useState<string>();
   const [isLoading, setIsLoading] = useState(false);
+  const selectFileRef = useRef<HTMLInputElement>(null);
 
   const onTextChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTextInputs((prev) => ({
@@ -43,7 +45,22 @@ const NewPostForm: React.FC<Props> = () => {
     }));
   };
 
-  const onSelectImage = () => {};
+  /**
+   * Stores selected file in `selectedImageFile` as string.
+   * @param event Event emitted by file input on change (when file is selected)
+   */
+  const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    if (event.target.files?.[0]) {
+      reader.readAsDataURL(event.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      if (readerEvent.target?.result) {
+        setSelectedImageFile(readerEvent.target?.result as string);
+      }
+    };
+  };
 
   const handleCreatePost = async () => {};
 
@@ -53,6 +70,7 @@ const NewPostForm: React.FC<Props> = () => {
         {formTabs.map((item, index) => (
           <TabItem
             item={item}
+            key={`tab-key-${index}`}
             isSelected={index === selectedTabIndex}
             setSelectedTab={() => setSelectedTabindex(index)}
           />
@@ -65,6 +83,16 @@ const NewPostForm: React.FC<Props> = () => {
             onChange={onTextChange}
             handleCreatePost={handleCreatePost}
             isLoading={isLoading}
+          />
+        )}
+
+        {selectedTabIndex === 1 && (
+          <ImageUpload
+            selectedFile={selectedImageFile}
+            setSelectedFile={setSelectedImageFile}
+            selectPostTab={() => setSelectedTabindex(0)}
+            selectFileRef={selectFileRef}
+            onSelectImage={onSelectImage}
           />
         )}
 
