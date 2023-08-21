@@ -21,7 +21,7 @@ const PageContentLayout: React.FC<PageContentLayoutProps> = ({ children }) => {
         </Flex>
 
         {/* Right Column */}
-        <Flex display={{ base: "none", md: "flex" }} flexGrow={1} minW="310px" border="solid 1px orange">
+        <Flex display={{ base: "none", md: "flex" }} flexGrow={1} minW="310px">
           {children[1]}
         </Flex>
       </Flex>

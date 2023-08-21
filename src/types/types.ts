@@ -18,6 +18,7 @@ export interface ICommunitySnippet {
 
 export interface ICommunityState {
   snippets: ICommunitySnippet[];
+  currentCommunity?: ICommunity;
 }
 
 export type TabItem = {

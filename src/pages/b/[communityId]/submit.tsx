@@ -1,3 +1,5 @@
+import { communityState } from "@/atoms/communitiesAtom";
+import AboutCommunity from "@/components/Community/AboutCommunity";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import NewPostForm from "@/components/Posts/NewPostForm";
 import { auth } from "@/firebase/clientApp";
@@ -6,11 +8,13 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { useRecoilValue } from "recoil";
 
 const SubmitPostPage: React.FC = () => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const { communityId } = router.query;
+  const communityStateValue = useRecoilValue(communityState);
 
   return (
     <>
@@ -26,7 +30,9 @@ const SubmitPostPage: React.FC = () => {
           </Box>
           {user && communityId && <NewPostForm user={user} communityId={communityId as string} />}
         </>
-        <>{/* About community */}</>
+        <>
+          <AboutCommunity community={communityStateValue.currentCommunity!} />
+        </>
       </PageContentLayout>
     </>
   );

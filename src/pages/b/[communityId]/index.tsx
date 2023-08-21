@@ -1,3 +1,5 @@
+import { communityState } from "@/atoms/communitiesAtom";
+import AboutCommunity from "@/components/Community/AboutCommunity";
 import CommunityNotFound from "@/components/Community/CommunityNotFound";
 import CreatePostLink from "@/components/Community/CreatePostLink";
 import Header from "@/components/Community/Header";
@@ -8,7 +10,8 @@ import { ICommunity } from "@/types/types";
 import { doc, getDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import React from "react";
+import React, { useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 import safeJsonStringify from "safe-json-stringify";
 
 type CommunityPageProps = {
@@ -21,9 +24,19 @@ type CommunityPageProps = {
  * @returns
  */
 const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
+  const setCommunityStateValue = useSetRecoilState(communityState);
+
   if (!communityData) {
     return <CommunityNotFound />;
   }
+
+  // When the community is visited, set it as current in the global state
+  useEffect(() => {
+    setCommunityStateValue((prev) => ({
+      ...prev,
+      currentCommunity: communityData,
+    }));
+  }, []);
 
   return (
     <>
@@ -38,7 +51,9 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
           <Posts communityData={communityData} />
         </>
         {/* Right column */}
-        <>RHS</>
+        <>
+          <AboutCommunity community={communityData} />
+        </>
       </PageContentLayout>
     </>
   );
