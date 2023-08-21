@@ -1,4 +1,5 @@
 import { firestore, storage } from "@/firebase/clientApp";
+import useSelectFile from "@/hooks/useSelectFile";
 import { IPost } from "@/types/types";
 import { Alert, AlertDescription, AlertIcon, AlertTitle, Flex, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
@@ -44,7 +45,11 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
     title: "",
     body: "",
   });
-  const [selectedImageFileData, setSelectedImageFileData] = useState<string>();
+  const {
+    selectedFileData: selectedImageFileData,
+    setSelectedFileData: setSelectedImageFileData,
+    onSelectFile: onSelectImage,
+  } = useSelectFile();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const selectFileRef = useRef<HTMLInputElement>(null);
@@ -54,23 +59,6 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
       ...prev,
       [event.target.name]: event.target.value,
     }));
-  };
-
-  /**
-   * Stores selected file in `selectedImageFile` as string.
-   * @param event Event emitted by file input on change (when file is selected)
-   */
-  const onSelectImage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    if (event.target.files?.[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    }
-
-    reader.onload = (readerEvent) => {
-      if (readerEvent.target?.result) {
-        setSelectedImageFileData(readerEvent.target?.result as string);
-      }
-    };
   };
 
   /**
