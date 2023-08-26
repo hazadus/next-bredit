@@ -38,6 +38,7 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
   - [getServerSideProps](https://nextjs.org/docs/pages/building-your-application/data-fetching/get-server-side-props)
 - React
   - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
+  - [UseEffect Reference](https://react.dev/reference/react/useEffect#reference)
 - Chakra UI
   - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/
     customize-theme#customizing-theme-tokens)
