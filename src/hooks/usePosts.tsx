@@ -5,12 +5,18 @@ import { auth, firestore, storage } from "@/firebase/clientApp";
 import { IPost, IPostVote } from "@/types/types";
 import { collection, deleteDoc, doc, getDocs, query, where, writeBatch } from "firebase/firestore";
 import { deleteObject, ref } from "firebase/storage";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
+/**
+ * Handles all posts related stuff: global state, vote, select current post, delete, etc.
+ * @returns
+ */
 const usePosts = () => {
   const [user] = useAuthState(auth);
+  const router = useRouter();
   const [postsStateValue, setPostsStateValue] = useRecoilState(postsState);
   const currentCommunity = useRecoilValue(communityState).currentCommunity;
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -107,12 +113,26 @@ const usePosts = () => {
         posts: updatedPosts,
         postVotes: updatedPostVotes,
       }));
+
+      if (postsStateValue.selectedPost && postsStateValue.selectedPost.id === post.id) {
+        setPostsStateValue((prev) => ({ ...prev, selectedPost: updatedPost }));
+      }
     } catch (error: any) {
       console.log("onVote error:", error);
     }
   };
 
-  const onSelectPost = () => {};
+  /**
+   * Set `post` as currently selected in the global app state, and open it's detail view in the browser.
+   * @param post post we want to set as currently selected.
+   */
+  const onSelectPost = (post: IPost) => {
+    setPostsStateValue((prev) => ({
+      ...prev,
+      selectedPost: post,
+    }));
+    router.push(`/b/${post.communityId}/comments/${post.id}`);
+  };
 
   /**
    * Delete post (and the image, if exists) from Firestore database and local global state.
