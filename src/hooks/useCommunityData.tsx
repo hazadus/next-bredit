@@ -118,7 +118,10 @@ const useCommunityData = () => {
 
   // This hook will trigger every time `user` changes:
   useEffect(() => {
+    // Load community snippets on user login...
     if (user) getSnippets();
+    // ...and clear them on logout
+    else setCommunityStateValue((prev) => ({ ...prev, snippets: [] }));
   }, [user]);
 
   return {

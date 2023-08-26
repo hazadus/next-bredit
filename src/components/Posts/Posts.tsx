@@ -1,11 +1,11 @@
 import { auth, firestore } from "@/firebase/clientApp";
 import usePosts from "@/hooks/usePosts";
 import { ICommunity, IPost } from "@/types/types";
+import { Stack } from "@chakra-ui/react";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
-import PostItem from "./PostItem";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { Stack } from "@chakra-ui/react";
+import PostItem from "./PostItem";
 import PostSkeleton from "./PostSkeleton";
 
 type PostsProps = {
@@ -56,7 +56,7 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
             key={`post-item-id-${post.id}`}
             post={post}
             userIsCreator={user ? user.uid === post.creatorId : false}
-            userVoteValue={undefined}
+            userVoteValue={postsStateValue.postVotes.find((vote) => vote.postId === post.id)?.voteValue}
             onVote={onVote}
             onSelectPost={onSelectPost}
             onDeletePost={onDeletePost}

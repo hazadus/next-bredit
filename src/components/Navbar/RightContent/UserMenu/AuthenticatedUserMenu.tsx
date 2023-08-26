@@ -1,4 +1,3 @@
-import { communityState } from "@/atoms/communitiesAtom";
 import { auth } from "@/firebase/clientApp";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
@@ -8,19 +7,15 @@ import { CgProfile } from "react-icons/cg";
 import { FaRedditSquare } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
-import { useResetRecoilState } from "recoil";
 
 type AuthenticatedUserMenuProps = {
   user?: User | null;
 };
 
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
-  const resetUserCommunitiesState = useResetRecoilState(communityState);
-
   const onClickLogout = async () => {
     await signOut(auth);
-    // Clear user's community snippets global state
-    resetUserCommunitiesState();
+    // Check useCommunityData - useEffect stuff to see what happens there on login/logout!
   };
 
   return (

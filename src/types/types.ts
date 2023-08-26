@@ -34,13 +34,21 @@ export interface IPost {
   title: string;
   body: string;
   numberOfComments: number;
-  voteStatus: number;
+  voteStatus: number; // number of votes on the post
   imageURL?: string;
   communityImageURL?: string;
   createdAt: Timestamp;
 }
 
+export interface IPostVote {
+  id: string;
+  postId: string;
+  communityId: string; // community where the `post` is located
+  voteValue: number; // 1 (upvote) or -1 (downvote)
+}
+
 export interface IPostState {
   selectedPost: IPost | null;
   posts: IPost[];
+  postVotes: IPostVote[];
 }

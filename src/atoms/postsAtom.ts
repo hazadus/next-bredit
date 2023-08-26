@@ -6,5 +6,6 @@ export const postsState = atom<IPostState>({
   default: {
     selectedPost: null,
     posts: [],
+    postVotes: [],
   },
 });
