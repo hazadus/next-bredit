@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Stack, Input, Textarea, Flex, Button } from "@chakra-ui/react";
 
 type TextInputsProps = {
@@ -12,12 +12,18 @@ type TextInputsProps = {
 };
 
 const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCreatePost, isLoading }) => {
+  let titleInput: HTMLInputElement | null = null;
+
+  useEffect(() => {
+    if (titleInput) titleInput.focus();
+  }, [titleInput]);
+
   return (
     <Stack spacing={3} width="100%">
       <Input
         name="title"
         value={textInputs.title}
-        ref={(input) => input && input.focus()}
+        ref={(input) => (titleInput = input)}
         onChange={onChange}
         _placeholder={{ color: "gray.500" }}
         _focus={{
