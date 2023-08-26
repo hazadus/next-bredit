@@ -13,6 +13,7 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
 - Community page SSR
 - Responsive UI
 - Global app state using Recoil
+- Voting on posts
 
 ## Frameworks and Libraries Used
 

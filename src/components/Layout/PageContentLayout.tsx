@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 type PageContentLayoutProps = {
   children: React.ReactNode[];
@@ -21,9 +21,9 @@ const PageContentLayout: React.FC<PageContentLayoutProps> = ({ children }) => {
         </Flex>
 
         {/* Right Column */}
-        <Flex display={{ base: "none", md: "flex" }} flexGrow={1} minW="310px">
+        <Box display={{ base: "none", md: "flex" }} flexDirection="column" flexGrow={1} minW="310px">
           {children[1]}
-        </Flex>
+        </Box>
       </Flex>
     </Flex>
   );
