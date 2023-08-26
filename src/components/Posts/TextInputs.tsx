@@ -17,6 +17,7 @@ const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCre
       <Input
         name="title"
         value={textInputs.title}
+        ref={(input) => input && input.focus()}
         onChange={onChange}
         _placeholder={{ color: "gray.500" }}
         _focus={{
