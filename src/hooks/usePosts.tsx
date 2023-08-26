@@ -85,6 +85,7 @@ const usePosts = () => {
           // This will be used to update post document in the Firestore
           voteChange *= -1;
         } else {
+          voteChange = 2 * vote;
           // User wants to `flip` his vote - i.e. change it from "up" to "down" or vice versa
           updatedPost.voteStatus = voteStatus + 2 * vote;
           // Update vote value of this vote in global state array
