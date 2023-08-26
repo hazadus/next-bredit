@@ -23,7 +23,7 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
             We have these communities:
           </Text>
           {communities.map((comm) => (
-            <Link href={`/b/${comm.id}`}>
+            <Link href={`/b/${comm.id}`} key={comm.id}>
               <Text _hover={{ textDecoration: "underline" }}>/b/{comm.id}</Text>
             </Link>
           ))}
