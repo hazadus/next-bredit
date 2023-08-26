@@ -1,6 +1,8 @@
+import AboutCommunity from "@/components/Community/AboutCommunity";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import PostItem from "@/components/Posts/PostItem";
 import { auth, firestore } from "@/firebase/clientApp";
+import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
 import { IPost } from "@/types/types";
 import { doc, getDoc } from "firebase/firestore";
@@ -12,6 +14,7 @@ const PostPage: React.FC = () => {
   const router = useRouter();
   const [user] = useAuthState(auth);
   const { postsStateValue, setPostsStateValue, onDeletePost, onVote } = usePosts();
+  const { communityStateValue } = useCommunityData();
 
   /**
    * Fetch post document from the Firestore, and set it as `selectedPost` in the global app state.
@@ -56,8 +59,9 @@ const PostPage: React.FC = () => {
         <div>Comments for selected post</div>
       </>
       <>
-        <div>About Community</div>
-        {/* <AboutCommunity /> */}
+        {communityStateValue.currentCommunity && (
+          <AboutCommunity community={communityStateValue.currentCommunity} />
+        )}
       </>
     </PageContentLayout>
   );

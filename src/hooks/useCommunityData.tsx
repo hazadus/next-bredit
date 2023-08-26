@@ -2,12 +2,14 @@ import { authModalState } from "@/atoms/authModalAtom";
 import { communityState } from "@/atoms/communitiesAtom";
 import { auth, firestore } from "@/firebase/clientApp";
 import { ICommunity, ICommunitySnippet } from "@/types/types";
-import { collection, doc, getDocs, increment, writeBatch } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, increment, writeBatch } from "firebase/firestore";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 const useCommunityData = () => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const [communityStateValue, setCommunityStateValue] = useRecoilState(communityState);
   const [isLoading, setIsLoading] = useState(false);
@@ -116,6 +118,22 @@ const useCommunityData = () => {
     }
   };
 
+  /**
+   * Fetch community data and save it in global state
+   */
+  const getCommunityData = async (communityId: string) => {
+    try {
+      const communityDocumentRef = doc(firestore, "communities", communityId);
+      const communityDocument = await getDoc(communityDocumentRef);
+      setCommunityStateValue((prev) => ({
+        ...prev,
+        currentCommunity: { id: communityDocument.id, ...communityDocument.data() } as ICommunity,
+      }));
+    } catch (error: any) {
+      console.log("getCommunityData error:", error);
+    }
+  };
+
   // This hook will trigger every time `user` changes:
   useEffect(() => {
     // Load community snippets on user login...
@@ -123,6 +141,12 @@ const useCommunityData = () => {
     // ...and clear them on logout
     else setCommunityStateValue((prev) => ({ ...prev, snippets: [] }));
   }, [user]);
+
+  useEffect(() => {
+    // Fetch current community data and save it in global state, in case there's none already
+    const { communityId } = router.query;
+    if (communityId && !communityStateValue.currentCommunity) getCommunityData(communityId as string);
+  }, [router.query, communityStateValue.currentCommunity]);
 
   return {
     communityStateValue,
