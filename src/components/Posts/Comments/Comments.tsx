@@ -1,12 +1,25 @@
 import { postsState } from "@/atoms/postsAtom";
 import { firestore } from "@/firebase/clientApp";
 import { IComment, IPost } from "@/types/types";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, SkeletonCircle, SkeletonText, Stack, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
-import { Timestamp, collection, doc, increment, serverTimestamp, writeBatch } from "firebase/firestore";
+import {
+  Timestamp,
+  collection,
+  collectionGroup,
+  doc,
+  getDocs,
+  increment,
+  orderBy,
+  query,
+  serverTimestamp,
+  where,
+  writeBatch,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import CommentInput from "./CommentInput";
+import CommentItem from "./CommentItem";
 
 type CommentsProps = {
   user?: User;
@@ -51,6 +64,10 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
       await batch.commit();
 
       // Update global app state
+      //
+      // "Client" version of the timestamp - `serverTimestamp()` will create timestamp only when
+      // the document gets saved to the Firebase, so for now we need to create it on our own:
+      newComment.createdAt = { seconds: Date.now() / 1000 } as Timestamp;
       setCommentBody("");
       setComments((prev) => [newComment, ...prev]);
       setPostState((prev) => ({
@@ -68,10 +85,27 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
   };
 
   const onDeleteComment = async (comment: any) => {};
-  const getPostComments = async () => {};
+
+  const getPostComments = async () => {
+    setIsFetchLoading(true);
+    try {
+      const commentsQuery = query(
+        collection(firestore, "comments"),
+        where("postId", "==", selectedPost.id),
+        orderBy("createdAt", "desc"),
+      );
+      const commentDocuments = await getDocs(commentsQuery);
+      const comments = commentDocuments.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setComments(comments as IComment[]);
+    } catch (error: any) {
+      console.log("getPostComments error:", error);
+    } finally {
+      setIsFetchLoading(false);
+    }
+  };
 
   useEffect(() => {
-    getPostComments();
+    if (selectedPost) getPostComments();
   }, []);
 
   return (
@@ -84,6 +118,49 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
           isLoading={isCreateLoading}
           onCreateComment={onCreateComment}
         />
+        <Stack spacing={2} p={2}>
+          {isFetchLoading ? (
+            <>
+              {[0, 1].map((item) => (
+                <Box padding={6} bg="white" flexDirection="row" key={`skeleton-id-${item}`}>
+                  <SkeletonCircle size="10" />
+                  <SkeletonText mt={4} noOfLines={2} spacing={4} />
+                </Box>
+              ))}
+            </>
+          ) : (
+            <>
+              {comments.length ? (
+                <>
+                  {comments.map((comment) => (
+                    <CommentItem
+                      comment={comment}
+                      onDeleteComment={onDeleteComment}
+                      isLoadingDelete={false}
+                      userId={user?.uid}
+                      key={`comment-id-${comment.id}`}
+                    />
+                  ))}
+                </>
+              ) : (
+                <>
+                  <Flex
+                    direction="column"
+                    justify="center"
+                    align="center"
+                    borderTop="1px solid"
+                    borderColor="gray.100"
+                    p={20}
+                  >
+                    <Text fontWeight={700} opacity={0.3}>
+                      No comments yet
+                    </Text>
+                  </Flex>
+                </>
+              )}
+            </>
+          )}
+        </Stack>
       </Flex>
     </Box>
   );

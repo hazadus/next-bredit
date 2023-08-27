@@ -33,6 +33,7 @@ const CommentInput: React.FC<CommentInputProps> = ({
             borderRadius={4}
             minHeight="160px"
             pb={10}
+            isDisabled={isLoading}
             _placeholder={{ color: "gray.500" }}
             _focus={{
               outline: "none",
