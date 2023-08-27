@@ -53,7 +53,7 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ community }) => {
   };
 
   return (
-    <Box position="sticky" top="14px" width="100%">
+    <Box position="sticky" top="58px" width="100%">
       <Flex
         justify="space-between"
         align="center"

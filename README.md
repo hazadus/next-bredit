@@ -47,6 +47,7 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
   - [Modal](https://chakra-ui.com/docs/components/modal/usage#usage)
     - [How to make custom sized modal in chakra UI](https://stackoverflow.com/questions/70040397/how-to-make-custom-sized-modal-in-chakra-ui) (or just use `<Modal size="xl">`)
   - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
+  - [Fixed Navbar using Chakra UI](https://dev.to/shriram27/fixed-navbar-using-chakra-ui-4i7b)
 
 # Getting Started
 

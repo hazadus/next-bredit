@@ -11,7 +11,7 @@ const Layout = (props: LayoutProps) => {
   return (
     <>
       <Navbar />
-      <main>{props.children}</main>
+      <main style={{ paddingTop: "44px" }}>{props.children}</main>
     </>
   );
 };
