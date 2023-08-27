@@ -1,10 +1,12 @@
 import AboutCommunity from "@/components/Community/AboutCommunity";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
+import Comments from "@/components/Posts/Comments/Comments";
 import PostItem from "@/components/Posts/PostItem";
 import { auth, firestore } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
 import { IPost } from "@/types/types";
+import { User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
@@ -56,7 +58,13 @@ const PostPage: React.FC = () => {
             userIsCreator={user?.uid === postsStateValue.selectedPost.creatorId}
           />
         )}
-        <div>Comments for selected post</div>
+        {postsStateValue.selectedPost && (
+          <Comments
+            selectedPost={postsStateValue.selectedPost}
+            user={user as User}
+            communityId={postsStateValue.selectedPost.communityId}
+          />
+        )}
       </>
       <>
         {communityStateValue.currentCommunity && (
