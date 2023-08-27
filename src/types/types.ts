@@ -52,3 +52,14 @@ export interface IPostState {
   posts: IPost[];
   postVotes: IPostVote[];
 }
+
+export interface IComment {
+  id: string;
+  creatorId: string;
+  creatorDisplayText: string;
+  communityId: string;
+  postId: string;
+  postTitle: string;
+  body: string;
+  createdAt: Timestamp;
+}
