@@ -158,7 +158,7 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
         <Stack spacing={2} p={2}>
           {isFetchLoading ? (
             <>
-              {[0, 1].map((item) => (
+              {[0].map((item) => (
                 <Box padding={6} bg="white" flexDirection="row" key={`skeleton-id-${item}`}>
                   <SkeletonCircle size="10" />
                   <SkeletonText mt={4} noOfLines={2} spacing={4} />

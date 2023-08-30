@@ -8,6 +8,7 @@ import usePosts from "@/hooks/usePosts";
 import { IPost } from "@/types/types";
 import { User } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -47,16 +48,21 @@ const PostPage: React.FC = () => {
       <>
         {/* Show selected post */}
         {postsStateValue.selectedPost && (
-          <PostItem
-            post={postsStateValue.selectedPost}
-            onVote={onVote}
-            onDeletePost={onDeletePost}
-            userVoteValue={
-              postsStateValue.postVotes.find((item) => item.postId === postsStateValue.selectedPost!.id)
-                ?.voteValue
-            }
-            userIsCreator={user?.uid === postsStateValue.selectedPost.creatorId}
-          />
+          <>
+            <Head>
+              <title>{postsStateValue.selectedPost.title}</title>
+            </Head>
+            <PostItem
+              post={postsStateValue.selectedPost}
+              onVote={onVote}
+              onDeletePost={onDeletePost}
+              userVoteValue={
+                postsStateValue.postVotes.find((item) => item.postId === postsStateValue.selectedPost!.id)
+                  ?.voteValue
+              }
+              userIsCreator={user?.uid === postsStateValue.selectedPost.creatorId}
+            />
+          </>
         )}
         {postsStateValue.selectedPost && (
           <Comments
