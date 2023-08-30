@@ -6,7 +6,6 @@ import { User } from "firebase/auth";
 import {
   Timestamp,
   collection,
-  collectionGroup,
   doc,
   getDocs,
   increment,
@@ -32,6 +31,7 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
   const [comments, setComments] = useState<IComment[]>([]);
   const [isFetchLoading, setIsFetchLoading] = useState(false);
   const [isCreateLoading, setIsCreateLoading] = useState(false);
+  const [loadingDeleteId, setLoadingDeleteId] = useState("");
   const setPostState = useSetRecoilState(postsState);
 
   const onCreateComment = async () => {
@@ -84,7 +84,44 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
     }
   };
 
-  const onDeleteComment = async (comment: any) => {};
+  /**
+   * Deletes comment document from Firebase and comment object from global state.
+   * Decreases number of comments on the post.
+   * @param comment a comment to delete
+   */
+  const onDeleteComment = async (comment: IComment) => {
+    setLoadingDeleteId(comment.id);
+    try {
+      const batch = writeBatch(firestore);
+
+      // Delete comment document from Firestore
+      const commentDocumentRef = doc(firestore, "comments", comment.id);
+      batch.delete(commentDocumentRef);
+
+      // Update number of comments on post document in Firestore
+      const postDocumentRef = doc(firestore, "posts", comment.postId);
+      batch.update(postDocumentRef, { numberOfComments: increment(-1) });
+
+      // Commit changes to Firestore
+      await batch.commit();
+
+      // Update app global state
+      // - decreaese number of comments on the selected post
+      setPostState((prev) => ({
+        ...prev,
+        selectedPost: {
+          ...prev.selectedPost,
+          numberOfComments: prev.selectedPost!.numberOfComments - 1,
+        } as IPost,
+      }));
+      // - remove the comment from global state
+      setComments((prev) => prev.filter((item) => item.id !== comment.id));
+    } catch (error: any) {
+      console.log("onDeleteComment error:", error);
+    } finally {
+      setLoadingDeleteId("");
+    }
+  };
 
   const getPostComments = async () => {
     setIsFetchLoading(true);
@@ -136,7 +173,7 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
                     <CommentItem
                       comment={comment}
                       onDeleteComment={onDeleteComment}
-                      isLoadingDelete={false}
+                      isLoadingDelete={loadingDeleteId === comment.id}
                       userId={user?.uid}
                       key={`comment-id-${comment.id}`}
                     />
