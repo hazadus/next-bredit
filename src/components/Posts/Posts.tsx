@@ -42,10 +42,11 @@ const Posts: React.FC<PostsProps> = ({ communityData }) => {
     }
   };
 
-  // Get all posts on initial load
+  // Get all posts on initial load and when the community changes
+  // (user opens another community page)
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [communityData]);
 
   return (
     <>

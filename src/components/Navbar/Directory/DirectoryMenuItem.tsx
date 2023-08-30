@@ -1,3 +1,4 @@
+import useDirectory from "@/hooks/useDirectory";
 import { Flex, Icon, Image, MenuItem } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
@@ -18,7 +19,7 @@ const DirectoryMenuItem: React.FC<DirectoryMenuItemProps> = ({
   iconColor,
   imageURL,
 }) => {
-  const router = useRouter();
+  const { onSelectMenuItem } = useDirectory();
 
   return (
     <MenuItem
@@ -26,7 +27,7 @@ const DirectoryMenuItem: React.FC<DirectoryMenuItemProps> = ({
       fontSize="10pt"
       _hover={{ bg: "gray.100" }}
       onClick={() => {
-        router.push(link);
+        onSelectMenuItem({ displayText, link, icon, iconColor, imageURL });
       }}
     >
       <Flex align="center">

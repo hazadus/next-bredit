@@ -1,5 +1,4 @@
 import { IDirectoryMenuItem, IDirectoryMenuState } from "@/types/types";
-import { FaSlidersH } from "react-icons/fa";
 import { TiHome } from "react-icons/ti";
 import { atom } from "recoil";
 
