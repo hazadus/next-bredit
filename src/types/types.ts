@@ -1,5 +1,6 @@
 import { Icon } from "@chakra-ui/react";
 import { Timestamp } from "firebase/firestore";
+import { IconType } from "react-icons";
 
 export interface ICommunity {
   id: string;
@@ -62,4 +63,17 @@ export interface IComment {
   postTitle: string;
   body: string;
   createdAt: Timestamp;
+}
+
+export interface IDirectoryMenuItem {
+  displayText: string;
+  link: string;
+  icon: IconType;
+  iconColor: string;
+  imageURL?: string;
+}
+
+export interface IDirectoryMenuState {
+  isOpen: boolean;
+  selectedMenuItem: IDirectoryMenuItem;
 }

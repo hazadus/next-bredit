@@ -66,6 +66,7 @@ const useCommunityData = () => {
       const newSnippet: ICommunitySnippet = {
         communityId: communityData.id,
         imageURL: communityData.imageURL || "",
+        isModerator: communityData.creatorId === user?.uid,
       };
 
       // Actually write new snippet to the `communitySnippets` collection,
