@@ -27,10 +27,10 @@ const Navbar: React.FC = () => {
       >
         <Flex align="center" width={{ base: "40px", md: "auto" }} mr={{ base: 0, md: 2 }}>
           <Link href="/">
-            <Image src="/images/breditLogo.svg" height="30px" />
+            <Image src="/images/breditFace-w.png" height="30px" />
           </Link>
           <Image
-            src="/images/breditText.svg"
+            src="/images/breditText.png"
             height="46px"
             display={{ base: "none", md: "unset" }}
             cursor="pointer"
