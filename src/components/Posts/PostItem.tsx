@@ -35,6 +35,7 @@ type PostItemProps = {
   onVote: (post: IPost, vote: number, communityId: string) => void;
   onDeletePost: (post: IPost) => Promise<boolean>;
   onSelectPost?: (post: IPost) => void;
+  isOnHomePage: boolean;
 };
 
 const PostItem: React.FC<PostItemProps> = ({
@@ -44,6 +45,7 @@ const PostItem: React.FC<PostItemProps> = ({
   onVote,
   onDeletePost,
   onSelectPost,
+  isOnHomePage,
 }) => {
   const router = useRouter();
   // We assume that if no `onSelectPost` was passed, we are on single post page
@@ -117,19 +119,19 @@ const PostItem: React.FC<PostItemProps> = ({
         <Stack spacing={1} p="10px 10px">
           {post.createdAt && (
             <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
-              {homePage && (
+              {isOnHomePage && (
                 <>
                   {post.communityImageURL ? (
                     <Image borderRadius="full" boxSize="18px" src={post.communityImageURL} mr={2} />
                   ) : (
                     <Icon as={FaReddit} fontSize={18} mr={1} color="blue.500" />
                   )}
-                  <Link href={`r/${post.communityId}`}>
+                  <Link href={`b/${post.communityId}`}>
                     <Text
                       fontWeight={700}
                       _hover={{ textDecoration: "underline" }}
                       onClick={(event) => event.stopPropagation()}
-                    >{`r/${post.communityId}`}</Text>
+                    >{`b/${post.communityId}`}</Text>
                   </Link>
                   <Icon as={BsDot} color="gray.500" fontSize={8} />
                 </>

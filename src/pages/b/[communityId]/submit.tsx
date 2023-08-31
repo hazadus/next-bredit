@@ -27,7 +27,13 @@ const SubmitPostPage: React.FC = () => {
               Create a post
             </Text>
           </Box>
-          {user && communityId && <NewPostForm user={user} communityId={communityId as string} />}
+          {user && communityId && (
+            <NewPostForm
+              user={user}
+              communityId={communityId as string}
+              communityImageURL={communityStateValue.currentCommunity?.imageURL}
+            />
+          )}
         </>
         <>
           {communityStateValue.currentCommunity && (

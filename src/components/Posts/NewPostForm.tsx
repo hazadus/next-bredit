@@ -36,9 +36,10 @@ const formTabs = [
 type NewPostFormProps = {
   user: User;
   communityId: string;
+  communityImageURL?: string;
 };
 
-const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
+const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId, communityImageURL }) => {
   const router = useRouter();
   const [selectedTabIndex, setSelectedTabindex] = useState(0);
   const [textInputs, setTextInputs] = useState({
@@ -67,6 +68,7 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId }) => {
   const handleCreatePost = async () => {
     const newPost: IPost = {
       communityId,
+      communityImageURL: communityImageURL || "",
       creatorId: user.uid,
       creatorDisplayName: user.email!.split("@")[0],
       title: textInputs.title,

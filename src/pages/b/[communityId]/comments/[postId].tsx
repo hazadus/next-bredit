@@ -61,6 +61,7 @@ const PostPage: React.FC = () => {
                   ?.voteValue
               }
               userIsCreator={user?.uid === postsStateValue.selectedPost.creatorId}
+              isOnHomePage={false}
             />
           </>
         )}
