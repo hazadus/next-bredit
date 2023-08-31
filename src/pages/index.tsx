@@ -5,7 +5,7 @@ import PostSkeleton from "@/components/Posts/PostSkeleton";
 import { auth, firestore } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
-import { ICommunity, IPost } from "@/types/types";
+import { ICommunity, IPost, IPostVote } from "@/types/types";
 import { Flex, Stack, Text } from "@chakra-ui/react";
 import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import Head from "next/head";
@@ -78,7 +78,26 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
     }
   };
 
-  const getUserPostVotes = () => {};
+  /**
+   * Fetch user's post votes for currently displayed posts.
+   */
+  const getUserPostVotes = async () => {
+    try {
+      const postIds = postsStateValue.posts.map((item) => item.id);
+      const postVotesQuery = query(
+        collection(firestore, `users/${user?.uid}/postVotes`),
+        where("postId", "in", postIds),
+      );
+      const postVoteDocuments = await getDocs(postVotesQuery);
+      const postVotes = postVoteDocuments.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      setPostsStateValue((prev) => ({
+        ...prev,
+        postVotes: postVotes as IPostVote[],
+      }));
+    } catch (error: any) {
+      console.log("getUserPostVotes error:", error);
+    }
+  };
 
   useEffect(() => {
     if (communityStateValue.areSnippetsFetched) buildAuthenticatedUserHomeFeed();
@@ -87,6 +106,19 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
   useEffect(() => {
     if (!user && !loadingUser) buildAnonymousUserHomeFeed();
   }, [user, loadingUser]);
+
+  useEffect(() => {
+    if (user && postsStateValue.posts.length) getUserPostVotes();
+
+    // Cleanup function - it will be called when we get
+    // away from this index page
+    return () => {
+      setPostsStateValue((prev) => ({
+        ...prev,
+        postVotes: [],
+      }));
+    };
+  }, [user, postsStateValue.posts]);
 
   return (
     <>
