@@ -1,4 +1,6 @@
 import CreatePostLink from "@/components/Community/CreatePostLink";
+import PersonalHome from "@/components/Community/PersonalHome";
+import TopCommunities from "@/components/Community/TopCommunities";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import PostItem from "@/components/Posts/PostItem";
 import PostSkeleton from "@/components/Posts/PostSkeleton";
@@ -128,7 +130,7 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
       <PageContentLayout>
         {/* Left column */}
         <>
-          <CreatePostLink />
+          {/* <CreatePostLink /> */}
 
           <Flex
             bg="white"
@@ -173,7 +175,10 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
         </>
 
         {/* Right column */}
-        <></>
+        <>
+          <PersonalHome />
+          <TopCommunities />
+        </>
       </PageContentLayout>
     </>
   );
