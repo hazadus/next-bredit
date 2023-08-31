@@ -45,7 +45,11 @@ const useCommunityData = () => {
       const snippets = snippetDocs.docs.map((doc) => ({ ...doc.data() })) as ICommunitySnippet[];
 
       // Store community snippets in global state
-      setCommunityStateValue((prev) => ({ ...prev, snippets }));
+      setCommunityStateValue((prev) => ({
+        ...prev,
+        snippets,
+        areSnippetsFetched: true,
+      }));
     } catch (error: any) {
       console.log("getSnippets error:", error);
       setError(error.message);
@@ -140,7 +144,12 @@ const useCommunityData = () => {
     // Load community snippets on user login...
     if (user) getSnippets();
     // ...and clear them on logout
-    else setCommunityStateValue((prev) => ({ ...prev, snippets: [] }));
+    else
+      setCommunityStateValue((prev) => ({
+        currentCommunity: undefined,
+        snippets: [],
+        areSnippetsFetched: false,
+      }));
   }, [user]);
 
   useEffect(() => {

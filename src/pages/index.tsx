@@ -3,10 +3,11 @@ import PageContentLayout from "@/components/Layout/PageContentLayout";
 import PostItem from "@/components/Posts/PostItem";
 import PostSkeleton from "@/components/Posts/PostSkeleton";
 import { auth, firestore } from "@/firebase/clientApp";
+import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
 import { ICommunity, IPost } from "@/types/types";
 import { Flex, Stack, Text } from "@chakra-ui/react";
-import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -21,6 +22,7 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
   const [user, loadingUser] = useAuthState(auth);
   const [isLoading, setIsLoading] = useState(false);
   const { postsStateValue, setPostsStateValue, onSelectPost, onDeletePost, onVote } = usePosts();
+  const { communityStateValue } = useCommunityData();
 
   /**
    * Fetch 10 posts sorted by vote number and put them into posts global state.
@@ -43,9 +45,44 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
     }
   };
 
-  const buildAuthenticatedUserHomeFeed = () => {};
+  /**
+   * Fetch posts from the communities user has joined.
+   */
+  const buildAuthenticatedUserHomeFeed = async () => {
+    setIsLoading(true);
+
+    try {
+      // Check if user joined any communities
+      if (communityStateValue.snippets.length) {
+        const joinedCommunityIds = communityStateValue.snippets.map((item) => item.communityId);
+        const postQuery = query(
+          collection(firestore, "posts"),
+          where("communityId", "in", joinedCommunityIds),
+          orderBy("createdAt", "desc"),
+          limit(32),
+        );
+        const postDocs = await getDocs(postQuery);
+        const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setPostsStateValue((prev) => ({
+          ...prev,
+          posts: posts as IPost[],
+        }));
+      } else {
+        // If user hasn't joined any communities yet, build generic feed
+        buildAnonymousUserHomeFeed();
+      }
+    } catch (error: any) {
+      console.log("buildAuthenticatedUserHomeFeed error:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getUserPostVotes = () => {};
+
+  useEffect(() => {
+    if (communityStateValue.areSnippetsFetched) buildAuthenticatedUserHomeFeed();
+  }, [communityStateValue.areSnippetsFetched]);
 
   useEffect(() => {
     if (!user && !loadingUser) buildAnonymousUserHomeFeed();
