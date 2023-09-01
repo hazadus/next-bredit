@@ -1,5 +1,5 @@
 import { communityState } from "@/atoms/communitiesAtom";
-import { directoryMenuState } from "@/atoms/directoryMenuAtom";
+import { defaultMenuState, directoryMenuState } from "@/atoms/directoryMenuAtom";
 import { IDirectoryMenuItem } from "@/types/types";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
@@ -24,7 +24,8 @@ const useDirectory = () => {
     if (directoryState.isOpen) toggleDirectoryMenuOpen();
   };
 
-  // Set selected menu item when user enters another community
+  // Set selected menu item when user enters (or leaves) another community,
+  // including using browser "back" button
   useEffect(() => {
     const { currentCommunity } = communityStateValue;
 
@@ -40,7 +41,15 @@ const useDirectory = () => {
         },
       }));
     }
-  }, [communityStateValue.currentCommunity]);
+  }, [communityStateValue.currentCommunity, router.query]);
+
+  // Update state when user moves around various routes on the site
+  useEffect(() => {
+    if (router.asPath === "/") {
+      console.log("asPath == '/' :", router.query, router.asPath);
+      setDirectoryState(() => ({ ...defaultMenuState }));
+    }
+  }, [router.query]);
 
   return { directoryState, toggleDirectoryMenuOpen, onSelectMenuItem };
 };

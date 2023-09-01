@@ -1,10 +1,14 @@
+import { aboutAppModalState } from "@/atoms/aboutAppModalAtom";
 import { Flex, Icon } from "@chakra-ui/react";
 import React from "react";
 import { BsArrowUpRightCircle, BsChatDots } from "react-icons/bs";
 import { GrAdd } from "react-icons/gr";
 import { IoFilterCircleOutline, IoNotificationsOutline, IoVideocamOutline } from "react-icons/io5";
+import { useSetRecoilState } from "recoil";
 
 const Icons: React.FC = () => {
+  const setAboutAppModalState = useSetRecoilState(aboutAppModalState);
+
   return (
     <Flex>
       <Flex
@@ -22,6 +26,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={20}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={BsArrowUpRightCircle} />
         </Flex>
@@ -33,6 +38,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={22}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={IoFilterCircleOutline} />
         </Flex>
@@ -44,6 +50,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={22}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={IoVideocamOutline} />
         </Flex>
@@ -58,6 +65,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={20}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={BsChatDots} />
         </Flex>
@@ -69,6 +77,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={20}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={IoNotificationsOutline} />
         </Flex>
@@ -81,6 +90,7 @@ const Icons: React.FC = () => {
           borderRadius={4}
           _hover={{ bg: "gray.200" }}
           fontSize={20}
+          onClick={() => setAboutAppModalState({ isOpen: true })}
         >
           <Icon as={GrAdd} />
         </Flex>

@@ -8,7 +8,8 @@ import { deleteObject, ref } from "firebase/storage";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import useCommunityData from "./useCommunityData";
 
 /**
  * Handles all posts related stuff: global state, vote, select current post, delete, etc.
@@ -18,8 +19,10 @@ const usePosts = () => {
   const [user] = useAuthState(auth);
   const router = useRouter();
   const [postsStateValue, setPostsStateValue] = useRecoilState(postsState);
-  const currentCommunity = useRecoilValue(communityState).currentCommunity;
   const setAuthModalState = useSetRecoilState(authModalState);
+
+  // Get `communityStateValue` from hook to activate hook's useEffect()'s
+  const { communityStateValue } = useCommunityData();
 
   /**
    * Handle vote action - update Firestore documents and app global state with authenticated user's vote.
@@ -187,8 +190,9 @@ const usePosts = () => {
 
   // This will reload user's votes when the current community changes
   useEffect(() => {
-    if (currentCommunity && user) getCommunityPostVotes(currentCommunity?.id);
-  }, [user, currentCommunity]);
+    if (communityStateValue.currentCommunity && user)
+      getCommunityPostVotes(communityStateValue.currentCommunity?.id);
+  }, [user, communityStateValue.currentCommunity]);
 
   // Clear post votes when user is not authenticated
   useEffect(() => {
