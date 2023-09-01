@@ -124,7 +124,7 @@ const useCommunityData = () => {
   };
 
   /**
-   * Fetch community data and save it in global state
+   * Fetch community data and save it in global state as current community.
    */
   const getCommunityData = async (communityId: string) => {
     try {
@@ -153,9 +153,18 @@ const useCommunityData = () => {
   }, [user]);
 
   useEffect(() => {
-    // Fetch current community data and save it in global state, in case there's none already
+    // Fetch current community data and save it in global state as current community, in case there's none already
     const { communityId } = router.query;
     if (communityId && !communityStateValue.currentCommunity) getCommunityData(communityId as string);
+
+    // Get community data and set it as current if router.query changes:
+    if (
+      communityId &&
+      communityStateValue.currentCommunity &&
+      communityId !== communityStateValue.currentCommunity.id
+    ) {
+      getCommunityData(communityId as string);
+    }
   }, [router.query, communityStateValue.currentCommunity]);
 
   return {

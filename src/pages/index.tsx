@@ -1,4 +1,3 @@
-import CreatePostLink from "@/components/Community/CreatePostLink";
 import PersonalHome from "@/components/Community/PersonalHome";
 import TopCommunities from "@/components/Community/TopCommunities";
 import PageContentLayout from "@/components/Layout/PageContentLayout";
