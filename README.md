@@ -20,7 +20,7 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
 - [Next.js](https://nextjs.org/)
 - [Chakra UI](https://chakra-ui.com/)
 - [Chakra UI Icons](https://chakra-ui.com/getting-started/cra-guide#using-chakra-icons)
-- [react-icons](https://www.npmjs.com/package/react-icons)
+- [react-icons](https://www.npmjs.com/package/react-icons): [Icons list](https://react-icons.github.io/react-icons/)
 - [Recoil](https://recoiljs.org/) – state management.
 - [Firebase](https://console.firebase.google.com/)
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)

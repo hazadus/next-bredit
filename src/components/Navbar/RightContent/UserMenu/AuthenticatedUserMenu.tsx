@@ -1,18 +1,23 @@
+import { aboutAppModalState } from "@/atoms/aboutAppModalAtom";
 import { auth } from "@/firebase/clientApp";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Flex, Icon, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { User, signOut } from "firebase/auth";
 import React from "react";
+import { BiHelpCircle } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { FaRedditSquare } from "react-icons/fa";
 import { IoSparkles } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
+import { useSetRecoilState } from "recoil";
 
 type AuthenticatedUserMenuProps = {
   user?: User | null;
 };
 
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
+  const setAboutAppModalState = useSetRecoilState(aboutAppModalState);
+
   const onClickLogout = async () => {
     await signOut(auth);
     // Check useCommunityData - useEffect stuff to see what happens there on login/logout!
@@ -64,12 +69,25 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
                 Profile
               </Flex>
             </MenuItem>
-            <MenuDivider />
             <MenuItem
-              onClick={onClickLogout}
               fontSize="10pt"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
+              onClick={() => setAboutAppModalState({ isOpen: true })}
+            >
+              <Flex align="center">
+                <Icon as={BiHelpCircle} fontSize={20} mr={2} />
+                About Bredit
+              </Flex>
+            </MenuItem>
+
+            <MenuDivider />
+
+            <MenuItem
+              fontSize="10pt"
+              fontWeight={700}
+              _hover={{ bg: "blue.500", color: "white" }}
+              onClick={onClickLogout}
             >
               <Flex align="center">
                 <Icon as={MdOutlineLogout} fontSize={20} mr={2} />

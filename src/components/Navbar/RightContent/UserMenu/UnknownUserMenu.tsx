@@ -1,13 +1,17 @@
+import { aboutAppModalState } from "@/atoms/aboutAppModalAtom";
 import { authModalState } from "@/atoms/authModalAtom";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Flex, Icon, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import { Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList } from "@chakra-ui/react";
 import React from "react";
+import { BiHelpCircle } from "react-icons/bi";
 import { MdOutlineLogin } from "react-icons/md";
 import { VscAccount } from "react-icons/vsc";
 import { useSetRecoilState } from "recoil";
 
 const UnknownUserMenu: React.FC = () => {
   const setAuthModalState = useSetRecoilState(authModalState);
+  const setAboutAppModalState = useSetRecoilState(aboutAppModalState);
+
   return (
     <>
       <Menu>
@@ -27,6 +31,20 @@ const UnknownUserMenu: React.FC = () => {
           </Flex>
         </MenuButton>
         <MenuList>
+          <MenuItem
+            fontSize="10pt"
+            fontWeight={700}
+            _hover={{ bg: "blue.500", color: "white" }}
+            onClick={() => setAboutAppModalState({ isOpen: true })}
+          >
+            <Flex align="center">
+              <Icon as={BiHelpCircle} fontSize={20} mr={2} />
+              About Bredit
+            </Flex>
+          </MenuItem>
+
+          <MenuDivider />
+
           <MenuItem
             fontSize="10pt"
             fontWeight={700}

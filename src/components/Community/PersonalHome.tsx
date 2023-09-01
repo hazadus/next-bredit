@@ -1,4 +1,4 @@
-import { Button, Flex, Icon, Stack, Text } from "@chakra-ui/react";
+import { Button, Divider, Flex, Icon, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { FaReddit } from "react-icons/fa";
 
@@ -30,7 +30,12 @@ const PersonalHome: React.FC = () => {
           <Text fontWeight={600}>Home</Text>
         </Flex>
         <Stack spacing={3}>
-          <Text fontSize="10pt">Your personal Bredit frontpage, built for you.</Text>
+          <Text fontSize="10pt">
+            Your personal Bredit frontpage. Come here to check in with your favorite communities.
+          </Text>
+
+          <Divider mt={2} mb={2} />
+
           <Button height="30px" isDisabled>
             Create Post
           </Button>
