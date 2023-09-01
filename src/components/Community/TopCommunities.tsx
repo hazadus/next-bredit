@@ -151,7 +151,7 @@ const TopCommunities: React.FC = () => {
                 );
               })}
               <Box p="10px 20px">
-                <Button height="30px" width="100%">
+                <Button height="30px" width="100%" isDisabled>
                   View All
                 </Button>
               </Box>

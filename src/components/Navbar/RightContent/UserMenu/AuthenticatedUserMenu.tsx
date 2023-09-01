@@ -1,6 +1,6 @@
 import { auth } from "@/firebase/clientApp";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { Flex, Icon, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Flex, Icon, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { User, signOut } from "firebase/auth";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
@@ -30,7 +30,13 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
           >
             <Flex align="center">
               <Flex align="center">
-                <Icon as={FaRedditSquare} fontSize={26} color="gray.300" mr={1} />
+                {/* Show user's photo if there's one */}
+                {user.photoURL ? (
+                  <Image src={user.photoURL} width={26} height={26} mr={1} />
+                ) : (
+                  <Icon as={FaRedditSquare} fontSize={26} color="gray.300" mr={1} />
+                )}
+
                 {/* Show username and karma on larger screens */}
                 <Flex
                   display={{ base: "none", lg: "flex" }}
@@ -42,7 +48,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
                   <Text fontWeight={700}>{user.displayName || user.email?.split("@")[0]}</Text>
                   <Flex>
                     <Icon as={IoSparkles} color="brand.100" mr={1} />
-                    <Text color="gray.400">1024 karma</Text>
+                    <Text color="gray.400">0 karma</Text>
                   </Flex>
                 </Flex>
               </Flex>
