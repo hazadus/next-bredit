@@ -52,7 +52,7 @@ const CommunityPage: React.FC<CommunityPageProps> = ({ communityData }) => {
         </>
         {/* Right column */}
         <>
-          <AboutCommunity community={communityData} />
+          <AboutCommunity community={communityData} isCommunityPage={true} />
         </>
       </PageContentLayout>
     </>

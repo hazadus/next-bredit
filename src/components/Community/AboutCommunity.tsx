@@ -7,6 +7,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
 import moment from "moment";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import React, { useRef, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { FaReddit } from "react-icons/fa";
@@ -16,14 +17,16 @@ import { useSetRecoilState } from "recoil";
 
 type AboutCommunityProps = {
   community: ICommunity;
+  isCommunityPage: boolean; // Set 'true' if component on community detail page, otherwise 'false'
 };
 
-const AboutCommunity: React.FC<AboutCommunityProps> = ({ community }) => {
+const AboutCommunity: React.FC<AboutCommunityProps> = ({ community, isCommunityPage }) => {
   const [user] = useAuthState(auth);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { selectedFileData, setSelectedFileData, onSelectFile } = useSelectFile();
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const setCommunityStateValue = useSetRecoilState(communityState);
+  const router = useRouter();
 
   /**
    * Upload image to the Firestore and update community document with new URL.
@@ -61,42 +64,86 @@ const AboutCommunity: React.FC<AboutCommunityProps> = ({ community }) => {
         color="white"
         p={3}
         borderRadius="4px 4px 0 0"
+        minHeight="34px"
       >
-        <Text fontSize="10pt" fontWeight={700}>
-          About Community
-        </Text>
-        <Icon as={HiOutlineDotsHorizontal} />
+        {isCommunityPage && (
+          <>
+            <Text fontSize="10pt" fontWeight={700}>
+              About Community
+            </Text>
+            <Icon as={HiOutlineDotsHorizontal} />
+          </>
+        )}
       </Flex>
       <Flex direction="column" p={3} bg="white" borderRadius="0 0 4px 4px">
         <Stack>
-          <Flex width="100%" p={2} fontSize="10pt" fontWeight={700}>
-            <Flex direction="column" flexGrow={1}>
-              <Text>{community.numberOfMembers}</Text>
-              <Text>Members</Text>
+          {(!isCommunityPage || router.asPath.endsWith("submit")) && (
+            <Flex align="center">
+              <Link href={`/b/${community.id}`}>
+                {community.imageURL ? (
+                  <Image src={community.imageURL} width="54px" height="54px" borderRadius="full" mr={2} />
+                ) : (
+                  <Icon
+                    as={FaReddit}
+                    fontSize={73}
+                    color="blue.500"
+                    bg="white"
+                    border="4px solid white"
+                    borderRadius="50px"
+                    mr={2}
+                  />
+                )}
+              </Link>
+              <Link href={`/b/${community.id}`}>
+                <Text fontWeight={600}>b/{community.id}</Text>
+              </Link>
             </Flex>
-            <Flex direction="column" flexGrow={1}>
-              <Text>1</Text>
-              <Text>Online</Text>
-            </Flex>
-          </Flex>
-          <Divider />
-          <Flex align="center" width="100%" p={1} fontSize="10pt" fontWeight={500}>
+          )}
+
+          <Flex align="center" width="100%" p={1} fontSize="10pt" fontWeight={500} mb={1}>
             <Icon as={RiCakeLine} fontSize={18} mr={2} />
             {community.createdAt && (
-              <Text>
+              <Text color="gray.500">
                 Created {moment(new Date(community.createdAt.seconds * 1000)).format("MMM DD, YYYY")}
               </Text>
             )}
           </Flex>
-          <Link href={`/b/${community.id}/submit`}>
-            <Button mt={3} height="30px" width="100%">
-              Create Post
-            </Button>
-          </Link>
 
-          {user?.uid === community.creatorId && (
+          <Divider />
+
+          <Flex width="100%" p={2} fontSize="10pt" fontWeight={700}>
+            <Flex direction="column" flexGrow={1}>
+              <Text fontSize={16}>{community.numberOfMembers}</Text>
+              <Text fontSize={12} color="gray.500">
+                Members
+              </Text>
+            </Flex>
+            <Flex direction="column" flexGrow={1}>
+              <Text fontSize={16}>1</Text>
+              <Text fontSize={12} color="gray.500">
+                Online
+              </Text>
+            </Flex>
+          </Flex>
+
+          {/* Hide "Create post" button on submit page */}
+          {!router.asPath.endsWith("submit") && (
             <>
               <Divider />
+
+              <Link href={`/b/${community.id}/submit`}>
+                <Button mt={1} height="30px" width="100%">
+                  Create Post
+                </Button>
+              </Link>
+            </>
+          )}
+
+          {/* Admin block */}
+          {user?.uid === community.creatorId && (
+            <>
+              <Divider mt={1} />
+
               <Stack spacing={1} fontSize="10pt">
                 <Text fontWeight={600}>Admin</Text>
                 <Flex align="center" justify="space-between">

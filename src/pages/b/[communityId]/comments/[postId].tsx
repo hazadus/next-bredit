@@ -75,7 +75,7 @@ const PostPage: React.FC = () => {
       </>
       <>
         {communityStateValue.currentCommunity && (
-          <AboutCommunity community={communityStateValue.currentCommunity} />
+          <AboutCommunity community={communityStateValue.currentCommunity} isCommunityPage={false} />
         )}
       </>
     </PageContentLayout>
