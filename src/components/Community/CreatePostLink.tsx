@@ -1,6 +1,6 @@
 import { authModalState } from "@/atoms/authModalAtom";
 import { auth } from "@/firebase/clientApp";
-import { Flex, Icon, Input } from "@chakra-ui/react";
+import { Flex, Icon, Image, Input } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -43,7 +43,13 @@ const CreatePostLink: React.FC<CreatePostProps> = () => {
       p={2}
       mb={4}
     >
-      <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
+      {/* Show user's photo if there's one */}
+      {user?.photoURL ? (
+        <Image src={user.photoURL} width="36px" height="36px" borderRadius="full" mr={4} />
+      ) : (
+        <Icon as={FaReddit} fontSize={36} color="gray.300" mr={4} />
+      )}
+
       <Input
         placeholder="Create Post"
         fontSize="10pt"
