@@ -7,6 +7,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import Directory from "./Directory/Directory";
 import RightContent from "./RightContent/RightContent";
 import SearchInput from "./SearchInput";
+import AboutAppModal from "../Modal/AboutAppModal/AboutAppModal";
 
 const Navbar: React.FC = () => {
   const [user, loading, userError] = useAuthState(auth);
@@ -44,6 +45,9 @@ const Navbar: React.FC = () => {
         <SearchInput user={user} />
         <RightContent user={user} />
       </Flex>
+
+      {/* About app modal on/off is switched from multiple components */}
+      <AboutAppModal />
     </>
   );
 };
