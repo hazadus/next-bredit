@@ -1,5 +1,5 @@
+import { Button, Flex, Input, Stack, Textarea } from "@chakra-ui/react";
 import React, { useEffect } from "react";
-import { Stack, Input, Textarea, Flex, Button } from "@chakra-ui/react";
 
 type TextInputsProps = {
   textInputs: {

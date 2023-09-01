@@ -1,5 +1,5 @@
 import { TabItem } from "@/types/types";
-import { Flex, Text, Icon } from "@chakra-ui/react";
+import { Flex, Icon, Text } from "@chakra-ui/react";
 import React from "react";
 
 type Props = {
