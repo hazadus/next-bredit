@@ -38,6 +38,7 @@ h6 {
 .markdown-content pre {
   background-color: rgba(175, 184, 193, 0.2);
   padding: 24px;
+  margin-bottom: 10px;
 }
 
 .markdown-content pre > code {
@@ -51,10 +52,15 @@ h6 {
 }
 
 .markdown-content p:not(:last-child) {
-  padding-bottom: 5px;
+  padding-bottom: 10px;
 }
 
 .markdown-content ul {
   padding-left: 16px;
-  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.markdown-content img {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
