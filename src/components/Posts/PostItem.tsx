@@ -12,6 +12,7 @@ import {
   Spinner,
   Stack,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
 import moment from "moment";
 import Link from "next/link";
@@ -142,7 +143,14 @@ const PostItem: React.FC<PostItemProps> = ({
               )}
               <Text color="gray.500">
                 Posted by u/{post.creatorDisplayName}{" "}
-                {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
+                <Tooltip
+                  hasArrow
+                  label={moment(new Date(post.createdAt.seconds * 1000)).format("MMMM Do YYYY, HH:mm")}
+                  bg="gray.300"
+                  color="black"
+                >
+                  {moment(new Date(post.createdAt.seconds * 1000)).fromNow()}
+                </Tooltip>
               </Text>
             </Stack>
           )}

@@ -1,6 +1,6 @@
 import { aboutAppModalState } from "@/atoms/aboutAppModalAtom";
 import { IComment } from "@/types/types";
-import { Box, Flex, Icon, Spinner, Stack, Text } from "@chakra-ui/react";
+import { Box, Flex, Icon, Spinner, Stack, Text, Tooltip } from "@chakra-ui/react";
 import moment from "moment";
 import React from "react";
 import { BsDot } from "react-icons/bs";
@@ -29,7 +29,14 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, onDeleteComment, isL
         <Stack direction="row" spacing={0.6} align="center" fontSize="8pt">
           <Text fontWeight={700}>{comment.creatorDisplayText}</Text>
           <Icon as={BsDot} color="gray.500" fontSize={8} />
-          <Text color="gray.600">{moment(new Date(comment.createdAt.seconds * 1000)).fromNow()}</Text>
+          <Tooltip
+            hasArrow
+            label={moment(new Date(comment.createdAt.seconds * 1000)).format("MMMM Do YYYY, HH:mm")}
+            bg="gray.300"
+            color="black"
+          >
+            <Text color="gray.600">{moment(new Date(comment.createdAt.seconds * 1000)).fromNow()}</Text>
+          </Tooltip>
           {isLoadingDelete && <Spinner size="sm" />}
         </Stack>
 
