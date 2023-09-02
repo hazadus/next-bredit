@@ -28,7 +28,9 @@ import {
   IoArrowUpCircleSharp,
   IoBookmarkOutline,
 } from "react-icons/io5";
+import ReactMarkdown from "react-markdown";
 import { useSetRecoilState } from "recoil";
+import remarkGfm from "remark-gfm";
 
 type PostItemProps = {
   post: IPost;
@@ -147,7 +149,16 @@ const PostItem: React.FC<PostItemProps> = ({
           <Text fontSize="12pt" fontWeight={600}>
             {post.title}
           </Text>
-          <Text fontSize="10pt">{post.body}</Text>
+
+          <Flex
+            direction="column"
+            className="markdown-content"
+            maxHeight={singlePostView ? undefined : 400}
+            overflowY="clip"
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
+          </Flex>
+
           {post.imageURL && (
             <Flex justify="center" align="center" p={2}>
               {loadingImage && <Skeleton height="200px" width="100%" borderRadius={4} />}

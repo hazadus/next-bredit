@@ -46,7 +46,6 @@ const useDirectory = () => {
   // Update state when user moves around various routes on the site
   useEffect(() => {
     if (router.asPath === "/") {
-      console.log("asPath == '/' :", router.query, router.asPath);
       setDirectoryState(() => ({ ...defaultMenuState }));
     }
   }, [router.query]);

@@ -1,5 +1,6 @@
-import { Button, Flex, Input, Stack, Textarea } from "@chakra-ui/react";
+import { Button, Flex, Input, Stack, Textarea, Text, Icon } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { BsMarkdown } from "react-icons/bs";
 
 type TextInputsProps = {
   textInputs: {
@@ -40,7 +41,6 @@ const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCre
       <Textarea
         name="body"
         value={textInputs.body}
-        onChange={onChange}
         fontSize="10pt"
         placeholder="Text (optional)"
         _placeholder={{ color: "gray.500" }}
@@ -52,7 +52,14 @@ const TextInputs: React.FC<TextInputsProps> = ({ textInputs, onChange, handleCre
         }}
         height="100px"
         isDisabled={isLoading}
+        onChange={onChange}
       />
+      <Flex align="center">
+        <Icon as={BsMarkdown} ml={2} mr={2} />
+        <Text fontSize="10pt" color="gray.500">
+          You can use Markdown to format your post.
+        </Text>
+      </Flex>
       <Flex justify="flex-end">
         <Button
           height="34px"
