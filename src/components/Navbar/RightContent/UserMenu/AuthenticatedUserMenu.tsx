@@ -37,7 +37,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
               <Flex align="center">
                 {/* Show user's photo if there's one */}
                 {user.photoURL ? (
-                  <Image src={user.photoURL} width={26} height={26} mr={1} />
+                  <Image src={user.photoURL} width={26} height={26} minWidth={26} mr={1} />
                 ) : (
                   <Icon as={FaRedditSquare} fontSize={26} color="gray.300" mr={1} />
                 )}

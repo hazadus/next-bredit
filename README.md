@@ -13,7 +13,9 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
 - Community page SSR
 - Responsive UI
 - Global app state using Recoil
+- Markdown in posts
 - Voting on posts
+- Comments
 
 ## Frameworks and Libraries Used
 
@@ -26,6 +28,8 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
   - [react-firebase-hooks](https://www.npmjs.com/package/react-firebase-hooks)
 - [safe-json-stringify](https://www.npmjs.com/package/safe-json-stringify) - a wrapper for `JSON.stringify` that handles circular references and prevents defined getters from throwing errors.
 - [Moment.js](https://www.npmjs.com/package/moment) - date library for parsing, validating, manipulating, and formatting dates.
+- [react-markdown](https://github.com/remarkjs/react-markdown) - Markdown component for React.
+  - [remark-gfm](https://github.com/remarkjs/remark-gfm) - remark plugin to support GFM (autolink literals, footnotes, strikethrough, tables, tasklists).
 
 ## Tools
 
@@ -48,6 +52,8 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
     - [How to make custom sized modal in chakra UI](https://stackoverflow.com/questions/70040397/how-to-make-custom-sized-modal-in-chakra-ui) (or just use `<Modal size="xl">`)
   - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
   - [Fixed Navbar using Chakra UI](https://dev.to/shriram27/fixed-navbar-using-chakra-ui-4i7b)
+- react-markdown
+  - [React Markdown: A Thorough Guide With Markdown Examples](https://www.copycat.dev/blog/react-markdown/)
 
 # Getting Started
 

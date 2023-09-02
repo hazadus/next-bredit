@@ -35,6 +35,7 @@ const Directory: React.FC = () => {
                   src={directoryState.selectedMenuItem.imageURL}
                   borderRadius="full"
                   boxSize="24px"
+                  minWidth="24px"
                   mr={2}
                 />
               ) : (
@@ -42,6 +43,7 @@ const Directory: React.FC = () => {
                   as={directoryState.selectedMenuItem.icon}
                   color={directoryState.selectedMenuItem.iconColor}
                   fontSize={24}
+                  minWidth="24px"
                   mr={{ base: 1, md: 2 }}
                 />
               )}

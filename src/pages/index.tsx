@@ -56,11 +56,12 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
       // Check if user joined any communities
       if (communityStateValue.snippets.length) {
         const joinedCommunityIds = communityStateValue.snippets.map((item) => item.communityId);
+        // NB: limit(30) because of Firebase limitations, see comments below in getUserPostVotes.
         const postQuery = query(
           collection(firestore, "posts"),
           where("communityId", "in", joinedCommunityIds),
           orderBy("createdAt", "desc"),
-          limit(32),
+          limit(30),
         );
         const postDocs = await getDocs(postQuery);
         const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -84,6 +85,8 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
    */
   const getUserPostVotes = async () => {
     try {
+      // NB: "FirebaseError: 'IN' supports up to 30 comparison values"
+      // `postsStateValue.posts` should contain 30 max items.
       const postIds = postsStateValue.posts.map((item) => item.id);
       const postVotesQuery = query(
         collection(firestore, `users/${user?.uid}/postVotes`),

@@ -1,7 +1,7 @@
 import { firestore, storage } from "@/firebase/clientApp";
 import useSelectFile from "@/hooks/useSelectFile";
 import { IPost } from "@/types/types";
-import { Alert, AlertDescription, AlertIcon, AlertTitle, Flex, Text } from "@chakra-ui/react";
+import { Alert, AlertDescription, AlertIcon, AlertTitle, Divider, Flex, Text } from "@chakra-ui/react";
 import { User } from "firebase/auth";
 import { Timestamp, addDoc, collection, serverTimestamp, updateDoc } from "firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
@@ -10,6 +10,8 @@ import React, { useRef, useState } from "react";
 import { BiPoll } from "react-icons/bi";
 import { BsLink45Deg } from "react-icons/bs";
 import { IoDocumentText, IoImageOutline } from "react-icons/io5";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import ImageUpload from "./ImageUpload";
 import TabItem from "./TabItem";
 import TextInputs from "./TextInputs";
@@ -115,49 +117,62 @@ const NewPostForm: React.FC<NewPostFormProps> = ({ user, communityId, communityI
   };
 
   return (
-    <Flex direction="column" bg="white" borderRadius={4} mt={2}>
-      <Flex width="100%">
-        {formTabs.map((item, index) => (
-          <TabItem
-            item={item}
-            key={`tab-key-${index}`}
-            isSelected={index === selectedTabIndex}
-            isDisabled={isLoading}
-            setSelectedTab={() => setSelectedTabindex(index)}
-          />
-        ))}
-      </Flex>
-      <Flex p={4}>
-        {selectedTabIndex === 0 && (
-          <TextInputs
-            textInputs={textInputs}
-            onChange={onTextChange}
-            handleCreatePost={handleCreatePost}
-            isLoading={isLoading}
-          />
-        )}
+    <>
+      <Flex direction="column" bg="white" borderRadius={4} mt={2}>
+        <Flex width="100%">
+          {formTabs.map((item, index) => (
+            <TabItem
+              item={item}
+              key={`tab-key-${index}`}
+              isSelected={index === selectedTabIndex}
+              isDisabled={isLoading}
+              setSelectedTab={() => setSelectedTabindex(index)}
+            />
+          ))}
+        </Flex>
+        <Flex p={4} direction="column">
+          {selectedTabIndex === 0 && (
+            <TextInputs
+              textInputs={textInputs}
+              onChange={onTextChange}
+              handleCreatePost={handleCreatePost}
+              isLoading={isLoading}
+            />
+          )}
 
-        {selectedTabIndex === 1 && (
-          <ImageUpload
-            selectedFile={selectedImageFileData}
-            setSelectedFile={setSelectedImageFileData}
-            selectPostTab={() => setSelectedTabindex(0)}
-            selectFileRef={selectFileRef}
-            onSelectImage={onSelectImage}
-          />
-        )}
+          {selectedTabIndex === 1 && (
+            <ImageUpload
+              selectedFile={selectedImageFileData}
+              setSelectedFile={setSelectedImageFileData}
+              selectPostTab={() => setSelectedTabindex(0)}
+              selectFileRef={selectFileRef}
+              onSelectImage={onSelectImage}
+            />
+          )}
 
-        {selectedTabIndex === 2 && <Text>Links are not yet implemented!</Text>}
-        {selectedTabIndex === 3 && <Text>Polls are not yet implemented!</Text>}
+          {selectedTabIndex === 2 && <Text>Links are not yet implemented!</Text>}
+          {selectedTabIndex === 3 && <Text>Polls are not yet implemented!</Text>}
+        </Flex>
+        {error && (
+          <Alert status="error">
+            <AlertIcon />
+            <AlertTitle>Error!</AlertTitle>
+            <AlertDescription>{error}</AlertDescription>
+          </Alert>
+        )}
       </Flex>
-      {error && (
-        <Alert status="error">
-          <AlertIcon />
-          <AlertTitle>Error!</AlertTitle>
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
+
+      {/* Post body rendered preview */}
+      {textInputs.body.trim().length > 0 && (
+        <Flex direction="column" bg="white" borderRadius={4} mt={2} p={4} className="markdown-content">
+          <Text fontWeight={700}>Post content preview</Text>
+
+          <Divider mt={1} mb={3} />
+
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{textInputs.body}</ReactMarkdown>
+        </Flex>
       )}
-    </Flex>
+    </>
   );
 };
 
