@@ -6,7 +6,9 @@ import React from "react";
 import { BsDot } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
 import { IoArrowDownCircleOutline, IoArrowUpCircleOutline } from "react-icons/io5";
+import ReactMarkdown from "react-markdown";
 import { useSetRecoilState } from "recoil";
+import remarkGfm from "remark-gfm";
 
 type CommentItemProps = {
   comment: IComment;
@@ -30,7 +32,16 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, onDeleteComment, isL
           <Text color="gray.600">{moment(new Date(comment.createdAt.seconds * 1000)).fromNow()}</Text>
           {isLoadingDelete && <Spinner size="sm" />}
         </Stack>
-        <Text fontSize="10pt">{comment.body}</Text>
+
+        <Flex
+          direction="column"
+          className="markdown-content"
+          maxWidth={{ base: "300px", md: "530px" }}
+          fontSize={{ base: "11px", md: "12px" }}
+        >
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{comment.body}</ReactMarkdown>
+        </Flex>
+
         <Stack direction="row" align="center" color="gray.500" cursor="pointer">
           <Icon
             as={IoArrowUpCircleOutline}
