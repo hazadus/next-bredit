@@ -7,12 +7,13 @@ import { auth, firestore } from "@/firebase/clientApp";
 import useCommunityData from "@/hooks/useCommunityData";
 import usePosts from "@/hooks/usePosts";
 import { ICommunity, IPost, IPostVote } from "@/types/types";
-import { Flex, Stack, Text } from "@chakra-ui/react";
+import { Divider, Flex, Icon, Image, Stack, Text } from "@chakra-ui/react";
 import { collection, getDocs, limit, orderBy, query, where } from "firebase/firestore";
 import Head from "next/head";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { FaReddit } from "react-icons/fa";
 import safeJsonStringify from "safe-json-stringify";
 
 type HomePageProps = {
@@ -145,15 +146,25 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
             direction="column"
           >
             <Text fontWeight={600} pb={2}>
-              We have these amazing communities:
+              Check out our amazing communities!
             </Text>
-            {communities.map((comm) => (
-              <Flex key={`list-id-${comm.id}`}>
-                <Link href={`/b/${comm.id}`}>
-                  <Text _hover={{ textDecoration: "underline" }}>/b/{comm.id}</Text>
-                </Link>
-              </Flex>
-            ))}
+            <Divider mb={3} />
+            <Stack direction="column" spacing={0.9}>
+              {communities.map((comm) => (
+                <Flex align="center" key={`list-id-${comm.id}`}>
+                  <Link href={`/b/${comm.id}`}>
+                    {comm.imageURL ? (
+                      <Image src={comm.imageURL} boxSize="28px" borderRadius="full" mr={2} />
+                    ) : (
+                      <Icon as={FaReddit} fontSize="28px" color="blue.500" mr={2} />
+                    )}
+                  </Link>
+                  <Link href={`/b/${comm.id}`}>
+                    <Text _hover={{ textDecoration: "underline" }}>/b/{comm.id}</Text>
+                  </Link>
+                </Flex>
+              ))}
+            </Stack>
           </Flex>
 
           {isLoading ? (
