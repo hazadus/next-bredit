@@ -69,6 +69,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
               fontWeight={700}
               color="gray.500"
               _hover={{ bg: "white" }}
+              isDisabled
             >
               <Flex align="center">
                 <Icon as={CgProfile} fontSize={20} mx="10px" />
@@ -131,7 +132,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
                 Log Out
               </Flex>
             </MenuItem>
-            <MenuItem fontSize="9pt" color="gray.500" _hover={{ bg: "white" }}>
+            <MenuItem fontSize="9pt" color="gray.500" _hover={{ bg: "white" }} isDisabled>
               <Flex align="center" ml="10px" mt="8px" mb="8px">
                 Hazadus.ru &copy; 2023. All rights preserved.
               </Flex>
