@@ -155,6 +155,7 @@ const PostItem: React.FC<PostItemProps> = ({
             className="markdown-content"
             maxHeight={singlePostView ? undefined : 400}
             maxWidth={{ base: "345px", md: "580px" }}
+            fontSize={{ base: "12px", md: "14px" }}
             overflowY="clip"
           >
             <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
