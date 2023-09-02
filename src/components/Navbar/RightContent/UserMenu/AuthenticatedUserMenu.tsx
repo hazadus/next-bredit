@@ -62,36 +62,78 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
               </Flex>
             </Flex>
           </MenuButton>
-          <MenuList>
-            <MenuItem fontSize="10pt" fontWeight={700} _hover={{ bg: "blue.500", color: "white" }}>
+          <MenuList width="254px">
+            <MenuItem
+              height="40px"
+              fontSize="10pt"
+              fontWeight={700}
+              color="gray.500"
+              _hover={{ bg: "white" }}
+            >
               <Flex align="center">
-                <Icon as={CgProfile} fontSize={20} mr={2} />
+                <Icon as={CgProfile} fontSize={20} mx="10px" />
+                My Stuff
+              </Flex>
+            </MenuItem>{" "}
+            <MenuItem
+              height="40px"
+              fontSize="10pt"
+              fontWeight={700}
+              _hover={{ bg: "blue.500", color: "white" }}
+            >
+              <Flex align="center" ml="40px">
                 Profile
               </Flex>
             </MenuItem>
             <MenuItem
+              height="40px"
+              fontSize="10pt"
+              fontWeight={700}
+              _hover={{ bg: "blue.500", color: "white" }}
+            >
+              <Flex align="center" ml="40px">
+                User Settings
+              </Flex>
+            </MenuItem>
+            <MenuDivider />
+            <MenuItem
+              height="40px"
+              fontSize="10pt"
+              fontWeight={700}
+              _hover={{ bg: "blue.500", color: "white" }}
+            >
+              <Flex align="center" ml="40px">
+                Create a Community
+              </Flex>
+            </MenuItem>
+            <MenuItem
+              height="40px"
               fontSize="10pt"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
               onClick={() => setAboutAppModalState({ isOpen: true })}
             >
               <Flex align="center">
-                <Icon as={BiHelpCircle} fontSize={20} mr={2} />
+                <Icon as={BiHelpCircle} fontSize={20} mx="10px" />
                 About Bredit
               </Flex>
             </MenuItem>
-
             <MenuDivider />
-
             <MenuItem
+              height="40px"
               fontSize="10pt"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
               onClick={onClickLogout}
             >
               <Flex align="center">
-                <Icon as={MdOutlineLogout} fontSize={20} mr={2} />
+                <Icon as={MdOutlineLogout} fontSize={20} mx="10px" />
                 Log Out
+              </Flex>
+            </MenuItem>
+            <MenuItem fontSize="9pt" color="gray.500" _hover={{ bg: "white" }}>
+              <Flex align="center" ml="10px" mt="8px" mb="8px">
+                Hazadus.ru &copy; 2023. All rights preserved.
               </Flex>
             </MenuItem>
           </MenuList>
