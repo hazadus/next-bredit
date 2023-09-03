@@ -6,6 +6,8 @@ import React, { useState } from "react";
 import { BsArrowsAngleContract, BsArrowsAngleExpand, BsChat, BsDot } from "react-icons/bs";
 import { IoArrowRedoOutline, IoBookmarkOutline } from "react-icons/io5";
 import NextLink from "next/link";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 type ProfilePostItemProps = {
   post: IPost;
@@ -135,7 +137,17 @@ const ProfilePostItem: React.FC<ProfilePostItemProps> = ({ post }) => {
         </Flex>
 
         {/* Post content */}
-        {!isCollapsed && <Flex p={1}>{post.body}</Flex>}
+        {!isCollapsed && (
+          <Flex
+            direction="column"
+            className="markdown-content"
+            fontSize={{ base: "12px", md: "14px" }}
+            maxWidth={{ base: "360px", md: "590px" }}
+            p={2}
+          >
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.body}</ReactMarkdown>
+          </Flex>
+        )}
       </Flex>
     </Flex>
   );
