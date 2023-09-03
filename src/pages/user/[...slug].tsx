@@ -3,8 +3,9 @@ import ProfilePostItem from "@/components/Profile/ProfilePostItem";
 import ProfileTabItem from "@/components/Profile/ProfileTabItem";
 import { firestore } from "@/firebase/clientApp";
 import { IPost } from "@/types/types";
-import { Flex, Stack } from "@chakra-ui/react";
+import { Flex, Stack, Text } from "@chakra-ui/react";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -85,6 +86,21 @@ const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
                     ))}
                   </Stack>
                 </>
+              )}
+              {(!tabTitle || tabTitle === "comments") && (
+                <Flex direction="column">
+                  <Text>&laquo;Overview&raquo; and &laquo;Comments&raquo; tabs are not yet implemented.</Text>
+                  <Text>
+                    Please visit{" "}
+                    <Link
+                      href={`/user/${userScreenName}/submitted`}
+                      style={{ fontWeight: 600, textDecoration: "underline" }}
+                    >
+                      Posts
+                    </Link>{" "}
+                    tab instead.
+                  </Text>
+                </Flex>
               )}
             </>
             <>

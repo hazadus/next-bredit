@@ -3,6 +3,7 @@ import { auth } from "@/firebase/clientApp";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { Flex, Icon, Image, Menu, MenuButton, MenuDivider, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { User, signOut } from "firebase/auth";
+import { useRouter } from "next/router";
 import React from "react";
 import { BiHelpCircle } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -16,6 +17,7 @@ type AuthenticatedUserMenuProps = {
 };
 
 const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) => {
+  const router = useRouter();
   const setAboutAppModalState = useSetRecoilState(aboutAppModalState);
 
   const onClickLogout = async () => {
@@ -81,6 +83,7 @@ const AuthenticatedUserMenu: React.FC<AuthenticatedUserMenuProps> = ({ user }) =
               fontSize="10pt"
               fontWeight={700}
               _hover={{ bg: "blue.500", color: "white" }}
+              onClick={() => router.push(`/user/${user.email?.split("@")[0]}`)}
             >
               <Flex align="center" ml="40px">
                 Profile
