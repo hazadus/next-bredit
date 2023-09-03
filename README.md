@@ -43,6 +43,10 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
 - React
   - [React: Type {children: Element} has no properties in common with type IntrinsicAttributes](https://bobbyhadz.com/blog/react-type-children-has-no-properties-in-common)
   - [UseEffect Reference](https://react.dev/reference/react/useEffect#reference)
+- Firebase
+  - [Ordering](https://firebase.google.com/docs/firestore/query-data/order-limit-data?hl=en#order_and_limit_data)
+  - [Pagination](https://firebase.google.com/docs/firestore/query-data/query-cursors)
+  - [Count results](https://firebase.google.com/docs/firestore/query-data/aggregation-queries?hl=en#use_the_count_aggregatio)
 - Chakra UI
   - [Customizing theme tokens](https://chakra-ui.com/docs/styled-system/
     customize-theme#customizing-theme-tokens)

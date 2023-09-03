@@ -27,13 +27,18 @@ const HomePage: React.FC<HomePageProps> = ({ communities }) => {
   const { communityStateValue } = useCommunityData();
 
   /**
-   * Fetch 10 posts sorted by vote number and put them into posts global state.
+   * Fetch 10 posts sorted by vote number (desc) and createdAt (desc) and put them into posts global state.
    */
   const buildAnonymousUserHomeFeed = async () => {
     setIsLoading(true);
 
     try {
-      const postQuery = query(collection(firestore, "posts"), orderBy("voteStatus", "desc"), limit(10));
+      const postQuery = query(
+        collection(firestore, "posts"),
+        orderBy("voteStatus", "desc"),
+        orderBy("createdAt", "desc"),
+        limit(10),
+      );
       const postDocs = await getDocs(postQuery);
       const posts = postDocs.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       setPostsStateValue((prev) => ({
