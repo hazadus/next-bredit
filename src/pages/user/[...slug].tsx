@@ -1,5 +1,6 @@
 import PageContentLayout from "@/components/Layout/PageContentLayout";
 import ProfilePostItem from "@/components/Profile/ProfilePostItem";
+import ProfilePostSkeleton from "@/components/Profile/ProfilePostSkeleton";
 import ProfileTabItem from "@/components/Profile/ProfileTabItem";
 import { firestore } from "@/firebase/clientApp";
 import { IPost } from "@/types/types";
@@ -14,11 +15,13 @@ type ProfilePageProps = {};
 
 const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
   const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
   const [userScreenName, setUserScreenName] = useState("");
   const [tabTitle, setTabTitle] = useState("");
   const [posts, setPosts] = useState<IPost[]>([]);
 
   const getUserPosts = async () => {
+    setIsLoading(true);
     const postDocuments = await getDocs(
       query(
         collection(firestore, "posts"),
@@ -28,6 +31,7 @@ const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
     );
     const posts = postDocuments.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
     setPosts(posts as IPost[]);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -43,78 +47,84 @@ const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
 
   useEffect(() => {
     if (tabTitle === "submitted" && userScreenName) getUserPosts();
+
+    return () => {
+      setPosts([]);
+    };
   }, [tabTitle, userScreenName]);
 
   return (
     <>
-      {userScreenName && (
+      <Head>
+        <title>
+          {userScreenName} (u/{userScreenName}) – Bredit
+        </title>
+      </Head>
+      <Flex height="40px" bg="white">
+        <Flex width={{ base: "426px", md: "974px" }} mx="auto" align="center">
+          <ProfileTabItem
+            title="Overview"
+            isSelected={!tabTitle}
+            isDisabled={false}
+            setSelectedTab={() => {
+              router.push(`/user/${userScreenName}`);
+            }}
+          />
+          <ProfileTabItem
+            title="Posts"
+            isSelected={tabTitle === "submitted"}
+            isDisabled={false}
+            setSelectedTab={() => {
+              router.push(`/user/${userScreenName}/submitted`);
+            }}
+          />
+          <ProfileTabItem
+            title="Comments"
+            isSelected={tabTitle === "comments"}
+            isDisabled={false}
+            setSelectedTab={() => {
+              router.push(`/user/${userScreenName}/comments`);
+            }}
+          />
+        </Flex>
+      </Flex>
+      <PageContentLayout>
         <>
-          <Head>
-            <title>
-              {userScreenName} (u/{userScreenName}) – Bredit
-            </title>
-          </Head>
-          <Flex height="40px" bg="white">
-            <Flex width={{ base: "426px", md: "974px" }} mx="auto" align="center">
-              <ProfileTabItem
-                title="Overview"
-                isSelected={!tabTitle}
-                isDisabled={false}
-                setSelectedTab={() => {
-                  router.push(`/user/${userScreenName}`);
-                }}
-              />
-              <ProfileTabItem
-                title="Posts"
-                isSelected={tabTitle === "submitted"}
-                isDisabled={false}
-                setSelectedTab={() => {
-                  router.push(`/user/${userScreenName}/submitted`);
-                }}
-              />
-              <ProfileTabItem
-                title="Comments"
-                isSelected={tabTitle === "comments"}
-                isDisabled={false}
-                setSelectedTab={() => {
-                  router.push(`/user/${userScreenName}/comments`);
-                }}
-              />
+          {/* Posts tab */}
+          {tabTitle === "submitted" && (
+            <>
+              {/* Loading  */}
+              {isLoading && <ProfilePostSkeleton />}
+              {/* Loading complete */}
+              {posts.length > 0 && !isLoading && (
+                <Stack>
+                  {posts.map((post) => (
+                    <ProfilePostItem post={post} key={`user-post-id-${post.id}`} />
+                  ))}
+                </Stack>
+              )}
+            </>
+          )}
+          {(!tabTitle || tabTitle === "comments") && (
+            <Flex direction="column">
+              <Text>&laquo;Overview&raquo; and &laquo;Comments&raquo; tabs are not yet implemented.</Text>
+              <Text>
+                Please visit{" "}
+                <Link
+                  href={`/user/${userScreenName}/submitted`}
+                  style={{ fontWeight: 600, textDecoration: "underline" }}
+                >
+                  Posts
+                </Link>{" "}
+                tab instead.
+              </Text>
             </Flex>
-          </Flex>
-          <PageContentLayout>
-            <>
-              {tabTitle === "submitted" && posts.length > 0 && (
-                <>
-                  <Stack>
-                    {posts.map((post) => (
-                      <ProfilePostItem post={post} key={`user-post-id-${post.id}`} />
-                    ))}
-                  </Stack>
-                </>
-              )}
-              {(!tabTitle || tabTitle === "comments") && (
-                <Flex direction="column">
-                  <Text>&laquo;Overview&raquo; and &laquo;Comments&raquo; tabs are not yet implemented.</Text>
-                  <Text>
-                    Please visit{" "}
-                    <Link
-                      href={`/user/${userScreenName}/submitted`}
-                      style={{ fontWeight: 600, textDecoration: "underline" }}
-                    >
-                      Posts
-                    </Link>{" "}
-                    tab instead.
-                  </Text>
-                </Flex>
-              )}
-            </>
-            <>
-              User: {userScreenName}, tab: {tabTitle}
-            </>
-          </PageContentLayout>
+          )}
         </>
-      )}
+        <>
+          User: {userScreenName}, tab: {tabTitle}
+        </>
+      </PageContentLayout>
     </>
   );
 };
