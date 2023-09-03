@@ -12,6 +12,7 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+import NextLink from "next/link";
 import React from "react";
 import { useRecoilState } from "recoil";
 
@@ -91,11 +92,12 @@ const AboutAppModal: React.FC = () => {
               Source code
             </Link>
             <Link
+              as={NextLink}
               href="/b/bredit"
               color="blue.500"
               cursor="pointer"
               _hover={{ textDecoration: "underline" }}
-              target="blank"
+              onClick={() => handleClose()}
             >
               Discuss Bredit on Bredit 😀
             </Link>

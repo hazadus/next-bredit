@@ -14,6 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { collection, getDocs, limit, orderBy, query } from "firebase/firestore";
+import NextLink from "next/link";
 import React, { useEffect, useState } from "react";
 import { FaReddit } from "react-icons/fa";
 
@@ -104,7 +105,7 @@ const TopCommunities: React.FC = () => {
                   (snippet) => snippet.communityId === item.id,
                 );
                 return (
-                  <Link key={item.id} href={`/b/${item.id}`}>
+                  <Link as={NextLink} key={item.id} href={`/b/${item.id}`}>
                     <Flex
                       position="relative"
                       align="center"

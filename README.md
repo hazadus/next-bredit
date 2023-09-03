@@ -56,6 +56,7 @@ Preview deployed on Vercel, check out the current version: https://next-bredit.v
     - [How to make custom sized modal in chakra UI](https://stackoverflow.com/questions/70040397/how-to-make-custom-sized-modal-in-chakra-ui) (or just use `<Modal size="xl">`)
   - [Menu](https://chakra-ui.com/docs/components/menu/usage#usage)
   - [Fixed Navbar using Chakra UI](https://dev.to/shriram27/fixed-navbar-using-chakra-ui-4i7b)
+  - [Link - Usage with Next.js](https://chakra-ui.com/docs/components/link#usage-with-nextjs)
 - react-markdown
   - [React Markdown: A Thorough Guide With Markdown Examples](https://www.copycat.dev/blog/react-markdown/)
 
