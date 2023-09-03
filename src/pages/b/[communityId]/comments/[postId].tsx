@@ -37,10 +37,16 @@ const PostPage: React.FC = () => {
   };
 
   useEffect(() => {
-    // If user opens the page, and there's no `selectedPost` (it occurs when user open the page directly from the link)
+    // 1. If user opens the page, and there's no `selectedPost` (it occurs when user open the page directly from the link)
+    // 2. or user moves from one post directly to another post,
     // then we need to fetch the post and set it as `selectedPost`.
     const { postId } = router.query;
-    if (postId && !postsStateValue.selectedPost) fetchPost(postId as string);
+
+    if (
+      (postId && !postsStateValue.selectedPost) ||
+      (postId && postsStateValue.selectedPost && postId !== postsStateValue.selectedPost.id)
+    )
+      fetchPost(postId as string);
   }, [router.query, postsStateValue.selectedPost]);
 
   return (

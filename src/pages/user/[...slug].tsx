@@ -1,0 +1,100 @@
+import PageContentLayout from "@/components/Layout/PageContentLayout";
+import ProfilePostItem from "@/components/Profile/ProfilePostItem";
+import ProfileTabItem from "@/components/Profile/ProfileTabItem";
+import { firestore } from "@/firebase/clientApp";
+import { IPost } from "@/types/types";
+import { Flex, Stack } from "@chakra-ui/react";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+
+type ProfilePageProps = {};
+
+const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
+  const router = useRouter();
+  const [userScreenName, setUserScreenName] = useState("");
+  const [tabTitle, setTabTitle] = useState("");
+  const [posts, setPosts] = useState<IPost[]>([]);
+
+  const getUserPosts = async () => {
+    const postDocuments = await getDocs(
+      query(
+        collection(firestore, "posts"),
+        where("creatorDisplayName", "==", userScreenName),
+        orderBy("createdAt", "desc"),
+      ),
+    );
+    const posts = postDocuments.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    setPosts(posts as IPost[]);
+  };
+
+  useEffect(() => {
+    // Get user's screen name and desired tab from the route
+    if (router.query.slug) {
+      setUserScreenName(router.query.slug[0]);
+
+      if (router.query.slug.length) {
+        setTabTitle(router.query.slug[1]);
+      }
+    }
+  }, [router.query.slug]);
+
+  useEffect(() => {
+    if (tabTitle === "submitted" && userScreenName) getUserPosts();
+  }, [tabTitle, userScreenName]);
+
+  return (
+    <>
+      {userScreenName && (
+        <>
+          <Flex height="40px" bg="white">
+            <Flex width={{ base: "426px", md: "974px" }} mx="auto" align="center">
+              <ProfileTabItem
+                title="Overview"
+                isSelected={!tabTitle}
+                isDisabled={false}
+                setSelectedTab={() => {
+                  router.push(`/user/${userScreenName}`);
+                }}
+              />
+              <ProfileTabItem
+                title="Posts"
+                isSelected={tabTitle === "submitted"}
+                isDisabled={false}
+                setSelectedTab={() => {
+                  router.push(`/user/${userScreenName}/submitted`);
+                }}
+              />
+              <ProfileTabItem
+                title="Comments"
+                isSelected={tabTitle === "comments"}
+                isDisabled={false}
+                setSelectedTab={() => {
+                  router.push(`/user/${userScreenName}/comments`);
+                }}
+              />
+            </Flex>
+          </Flex>
+          <PageContentLayout>
+            <>
+              {tabTitle === "submitted" && posts.length > 0 && (
+                <>
+                  <Stack>
+                    {posts.map((post) => (
+                      <ProfilePostItem post={post} key={`user-post-id-${post.id}`} />
+                    ))}
+                  </Stack>
+                </>
+              )}
+            </>
+            <>
+              User: {userScreenName}, tab: {tabTitle}
+            </>
+          </PageContentLayout>
+        </>
+      )}
+    </>
+  );
+};
+
+export default ProfilePage;
