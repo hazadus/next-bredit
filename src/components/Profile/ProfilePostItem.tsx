@@ -1,10 +1,11 @@
 import { IPost } from "@/types/types";
-import { Flex, Icon, Image, Text, Tooltip } from "@chakra-ui/react";
+import { Flex, Icon, Image, Text, Tooltip, Link } from "@chakra-ui/react";
 import moment from "moment";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { BsArrowsAngleContract, BsArrowsAngleExpand, BsChat, BsDot } from "react-icons/bs";
 import { IoArrowRedoOutline, IoBookmarkOutline } from "react-icons/io5";
+import NextLink from "next/link";
 
 type ProfilePostItemProps = {
   post: IPost;
@@ -54,7 +55,9 @@ const ProfilePostItem: React.FC<ProfilePostItemProps> = ({ post }) => {
             </Flex>
             {/* Community / Author */}
             <Flex align="center" fontSize="13px" fontWeight={700}>
-              b/{post.communityId}
+              <Link as={NextLink} href={`/b/${post.communityId}`}>
+                b/{post.communityId}
+              </Link>
               <Icon as={BsDot} color="gray.500" fontSize={8} />
               <Text color="gray.500" fontWeight={300}>
                 Posted by u/{post.creatorDisplayName}{" "}
