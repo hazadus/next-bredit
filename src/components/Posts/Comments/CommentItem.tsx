@@ -1,7 +1,8 @@
 import { aboutAppModalState } from "@/atoms/aboutAppModalAtom";
 import { IComment } from "@/types/types";
-import { Box, Flex, Icon, Spinner, Stack, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Flex, Icon, Link, Spinner, Stack, Text, Tooltip } from "@chakra-ui/react";
 import moment from "moment";
+import NextLink from "next/link";
 import React from "react";
 import { BsDot } from "react-icons/bs";
 import { FaReddit } from "react-icons/fa";
@@ -27,7 +28,11 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, onDeleteComment, isL
       </Box>
       <Stack>
         <Stack direction="row" spacing={0.6} align="center" fontSize="8pt">
-          <Text fontWeight={700}>{comment.creatorDisplayText}</Text>
+          <Text fontWeight={700}>
+            <Link as={NextLink} href={`/user/${comment.creatorDisplayText}`}>
+              {comment.creatorDisplayText}
+            </Link>
+          </Text>
           <Icon as={BsDot} color="gray.500" fontSize={8} />
           <Tooltip
             hasArrow

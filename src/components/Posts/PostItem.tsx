@@ -8,6 +8,7 @@ import {
   Flex,
   Icon,
   Image,
+  Link,
   Skeleton,
   Spinner,
   Stack,
@@ -15,7 +16,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import moment from "moment";
-import Link from "next/link";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
@@ -131,18 +132,28 @@ const PostItem: React.FC<PostItemProps> = ({
                   ) : (
                     <Icon as={FaReddit} fontSize={18} mr={1} color="blue.500" />
                   )}
-                  <Link href={`b/${post.communityId}`}>
-                    <Text
-                      fontWeight={700}
-                      _hover={{ textDecoration: "underline" }}
-                      onClick={(event) => event.stopPropagation()}
-                    >{`b/${post.communityId}`}</Text>
+                  <Link
+                    as={NextLink}
+                    href={`b/${post.communityId}`}
+                    fontWeight={700}
+                    _hover={{ textDecoration: "underline" }}
+                    onClick={(event) => event.stopPropagation()}
+                  >
+                    {`b/${post.communityId}`}
                   </Link>
                   <Icon as={BsDot} color="gray.500" fontSize={8} />
                 </>
               )}
               <Text color="gray.500">
-                Posted by u/{post.creatorDisplayName}{" "}
+                Posted by u/
+                <Link
+                  as={NextLink}
+                  href={`/user/${post.creatorDisplayName}`}
+                  _hover={{ textDecoration: "underline" }}
+                  onClick={(event) => event.stopPropagation()}
+                >
+                  {post.creatorDisplayName}
+                </Link>{" "}
                 <Tooltip
                   hasArrow
                   label={moment(new Date(post.createdAt.seconds * 1000)).format("MMMM Do YYYY, HH:mm")}
