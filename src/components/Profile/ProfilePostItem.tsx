@@ -93,6 +93,7 @@ const ProfilePostItem: React.FC<ProfilePostItemProps> = ({ post }) => {
                 cursor="pointer"
                 onClick={(event: React.MouseEvent) => {
                   event.stopPropagation();
+                  router.push(`/b/${post.communityId}/comments/${post.id}#comments`);
                 }}
               >
                 <Icon as={BsChat} mr={2} />

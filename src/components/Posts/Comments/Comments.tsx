@@ -146,7 +146,7 @@ const Comments: React.FC<CommentsProps> = ({ user, selectedPost, communityId }) 
   }, []);
 
   return (
-    <Box bg="white" borderRadius="0px 0px 4px 4px" p={2}>
+    <Box bg="white" borderRadius="0px 0px 4px 4px" p={2} id="comments">
       <Flex direction="column" pl={10} pr={4} mb={6} fontSize="10pt" width="100%">
         <CommentInput
           commentBody={commentBody}
