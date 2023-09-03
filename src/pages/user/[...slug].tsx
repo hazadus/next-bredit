@@ -5,6 +5,7 @@ import { firestore } from "@/firebase/clientApp";
 import { IPost } from "@/types/types";
 import { Flex, Stack, Text } from "@chakra-ui/react";
 import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
+import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
@@ -48,6 +49,11 @@ const ProfilePage: React.FC<ProfilePageProps> = ({}) => {
     <>
       {userScreenName && (
         <>
+          <Head>
+            <title>
+              {userScreenName} (u/{userScreenName}) – Bredit
+            </title>
+          </Head>
           <Flex height="40px" bg="white">
             <Flex width={{ base: "426px", md: "974px" }} mx="auto" align="center">
               <ProfileTabItem
